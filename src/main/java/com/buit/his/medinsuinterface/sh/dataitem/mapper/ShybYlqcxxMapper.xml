@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 上海医保医疗器材信息 -->
+<mapper namespace="com.buit.his.medinsuinterface.sh.dataitem.dao.ShybYlqcxxDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        YBMATERIALDATA_ID as ybmaterialdataId,DATA_VERSION as dataVersion,GMT_CREATE as gmtCreate,GMT_MODIFY as gmtModify,HOSPITAL_ID as hospitalId,YB_CODE as ybCode,STATUS as status,BEGIN_DATE as beginDate,END_DATE as endDate,PAY_TYPE as payType,REGISTER_NO as registerNo,REGISTER_BEGIN_DATE as registerBeginDate,REGISTER_END_DATE as registerEndDate,MATERIAL_NAME as materialName,MATERIAL_SPEC as materialSpec,AUT_NAME as autName,BRAND as brand,FACTORY as factory,TEXTURE as texture,REMARK as remark,FIRST_LEVEL as firstLevel,SECOND_LEVEL as secondLevel,THIRD_LEVEL as thirdLevel,FOUR_LEVEL as fourLevel
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO SHYB_YLQCXX (
+            YBMATERIALDATA_ID ,
+            DATA_VERSION ,
+            GMT_CREATE ,
+            GMT_MODIFY ,
+            HOSPITAL_ID ,
+            YB_CODE ,
+            STATUS ,
+            BEGIN_DATE ,
+            END_DATE ,
+            PAY_TYPE ,
+            REGISTER_NO ,
+            REGISTER_BEGIN_DATE ,
+            REGISTER_END_DATE ,
+            MATERIAL_NAME ,
+            PY_CODE,
+            WB_CODE,
+            MATERIAL_SPEC ,
+            AUT_NAME ,
+            BRAND ,
+            FACTORY ,
+            TEXTURE ,
+            REMARK ,
+            FIRST_LEVEL ,
+            SECOND_LEVEL ,
+            THIRD_LEVEL ,
+            FOUR_LEVEL 
+        ) VALUES (
+            #{ybmaterialdataId} ,
+            #{dataVersion} ,
+            #{gmtCreate} ,
+            #{gmtCreate} ,
+            #{hospitalId} ,
+            #{ybCode} ,
+            #{status} ,
+            #{beginDate} ,
+            #{endDate} ,
+            #{payType} ,
+            #{registerNo} ,
+            #{registerBeginDate} ,
+            #{registerEndDate} ,
+            #{materialName} ,
+            #{pyCode},
+            #{wbCode},
+            #{materialSpec} ,
+            #{autName} ,
+            #{brand} ,
+            #{factory} ,
+            #{texture} ,
+            #{remark} ,
+            #{firstLevel} ,
+            #{secondLevel} ,
+            #{thirdLevel} ,
+            #{fourLevel} 
+        )
+    </insert>
+    
+    <update id="update" > 
+        UPDATE SHYB_YLQCXX SET
+            DATA_VERSION = #{dataVersion} ,
+            GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} ,
+            HOSPITAL_ID = #{hospitalId} ,
+            YB_CODE = #{ybCode} ,
+            STATUS = #{status} ,
+            BEGIN_DATE = #{beginDate} ,
+            END_DATE = #{endDate} ,
+            PAY_TYPE = #{payType} ,
+            REGISTER_NO = #{registerNo} ,
+            REGISTER_BEGIN_DATE = #{registerBeginDate} ,
+            REGISTER_END_DATE = #{registerEndDate} ,
+            MATERIAL_NAME = #{materialName} ,
+            PY_CODE = #{pyCode},
+            WB_CODE = #{wbCode},
+            MATERIAL_SPEC = #{materialSpec} ,
+            AUT_NAME = #{autName} ,
+            BRAND = #{brand} ,
+            FACTORY = #{factory} ,
+            TEXTURE = #{texture} ,
+            REMARK = #{remark} ,
+            FIRST_LEVEL = #{firstLevel} ,
+            SECOND_LEVEL = #{secondLevel} ,
+            THIRD_LEVEL = #{thirdLevel} ,
+            FOUR_LEVEL = #{fourLevel} 
+        WHERE 
+            YBMATERIALDATA_ID = #{ybmaterialdataId} 
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM SHYB_YLQCXX WHERE
+        YBMATERIALDATA_ID = #{ybmaterialdataId} 
+    </delete>
+    
+    <delete id="removeByEntity">
+        DELETE FROM SHYB_YLQCXX <include refid="where"/>  
+    </delete>
+    
+    <select id="getById" resultType="ShybYlqcxx">
+        SELECT <include refid="columns" />
+            FROM SHYB_YLQCXX 
+            WHERE 
+        YBMATERIALDATA_ID = #{ybmaterialdataId} 
+    </select>
+    
+    <sql id="where">
+        <where>                          
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ybmaterialdataId)"> -->
+<!--                     AND YBMATERIALDATA_ID = #{ybmaterialdataId} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataVersion)"> -->
+<!--                     AND DATA_VERSION = #{dataVersion} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtCreate)"> -->
+<!--                     AND GMT_CREATE = #{gmtCreate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtModify)"> -->
+<!--                     AND GMT_MODIFY = #{gmtModify} -->
+<!--                </if> -->
+               <if test="@sqlt.Ognl@isNotEmpty(hospitalId)">
+                    AND HOSPITAL_ID = #{hospitalId}
+               </if>
+               <if test="@sqlt.Ognl@isNotEmpty(ybCode)">
+                    AND YB_CODE = #{ybCode}
+               </if>
+<!--                <if test="@sqlt.Ognl@isNotEmpty(status)"> -->
+<!--                     AND STATUS = #{status} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(beginDate)"> -->
+<!--                     AND BEGIN_DATE = #{beginDate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(endDate)"> -->
+<!--                     AND END_DATE = #{endDate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(payType)"> -->
+<!--                     AND PAY_TYPE = #{payType} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(registerNo)"> -->
+<!--                     AND REGISTER_NO = #{registerNo} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(registerBeginDate)"> -->
+<!--                     AND REGISTER_BEGIN_DATE = #{registerBeginDate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(registerEndDate)"> -->
+<!--                     AND REGISTER_END_DATE = #{registerEndDate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(materialName)"> -->
+<!--                     AND MATERIAL_NAME = #{materialName} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(materialSpec)"> -->
+<!--                     AND MATERIAL_SPEC = #{materialSpec} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(autName)"> -->
+<!--                     AND AUT_NAME = #{autName} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(brand)"> -->
+<!--                     AND BRAND = #{brand} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(factory)"> -->
+<!--                     AND FACTORY = #{factory} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(texture)"> -->
+<!--                     AND TEXTURE = #{texture} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(remark)"> -->
+<!--                     AND REMARK = #{remark} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(firstLevel)"> -->
+<!--                     AND FIRST_LEVEL = #{firstLevel} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(secondLevel)"> -->
+<!--                     AND SECOND_LEVEL = #{secondLevel} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(thirdLevel)"> -->
+<!--                     AND THIRD_LEVEL = #{thirdLevel} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(fourLevel)"> -->
+<!--                     AND FOUR_LEVEL = #{fourLevel} -->
+<!--                </if> -->
+
+			<if test="@sqlt.Ognl@isNotEmpty(materialName)">
+                    
+                    AND (	MATERIAL_NAME LIKE CONCAT(CONCAT('%',UPPER(#{materialName})),'%') 
+               				or PY_CODE LIKE CONCAT(CONCAT('%',UPPER(#{materialName})),'%')
+               				or WB_CODE LIKE CONCAT(CONCAT('%',UPPER(#{materialName})),'%')
+               			)
+               </if>
+        </where>
+    </sql>
+        
+    <select id="findByEntityCount" resultType="long">
+        SELECT count(*) FROM SHYB_YLQCXX 
+        <include refid="where"/>    
+    </select>
+    
+    <select id="findByEntity" resultType="ShybYlqcxx">
+        SELECT <include refid="columns" />
+        FROM SHYB_YLQCXX 
+        <include refid="where"/>
+        
+        <if test="@sqlt.Ognl@orderIsNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+    <!--     业务sql      -->
+    
+    <update id="updateObj" > 
+        UPDATE SHYB_YLQCXX SET
+            DATA_VERSION = #{dataVersion} ,
+            <!-- GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} , -->
+            HOSPITAL_ID = #{hospitalId} ,
+            YB_CODE = #{ybCode} ,
+            STATUS = #{status} ,
+            <!-- BEGIN_DATE = #{beginDate} ,
+            END_DATE = #{endDate} , -->
+            PAY_TYPE = #{payType} ,
+            REGISTER_NO = #{registerNo} ,
+            <!-- REGISTER_BEGIN_DATE = #{registerBeginDate} ,
+            REGISTER_END_DATE = #{registerEndDate} , -->
+            MATERIAL_NAME = #{materialName} ,
+            MATERIAL_SPEC = #{materialSpec} ,
+            AUT_NAME = #{autName} ,
+            BRAND = #{brand} ,
+            FACTORY = #{factory} ,
+            TEXTURE = #{texture} ,
+            REMARK = #{remark} ,
+            FIRST_LEVEL = #{firstLevel} ,
+            SECOND_LEVEL = #{secondLevel} ,
+            THIRD_LEVEL = #{thirdLevel} ,
+            FOUR_LEVEL = #{fourLevel} 
+        WHERE 
+            YB_CODE = #{ybCode}
+    </update>
+</mapper>
+

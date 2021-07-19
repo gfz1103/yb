@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO药企与医院进货单位对照表 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoYqJhdwDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,YQID as yqid,JHDWID as jhdwid,C_TIME as ctime,C_USER as cuser,C_UNAME as cuname
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_YQ_JHDW (
+            XH ,
+            JGID ,
+            YQID ,
+            JHDWID ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME 
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{yqid} ,
+            #{jhdwid} ,
+            #{ctime} ,
+            #{cuser} ,
+            #{cuname} 
+        )
+    </insert>
+    
+    <update id="update" ><!--  
+        UPDATE GPO_YQ_JHDW SET
+            JGID = #{jgid} ,
+            YQID = #{yqid} ,
+            JHDWID = #{jhdwid} ,
+            C_TIME = #{ctime} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} 
+        WHERE 
+            XH = #{xh} 
+            -->            
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM GPO_YQ_JHDW WHERE XH = #{id}
+    </delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoYqJhdw">
+        SELECT <include refid="columns" />
+            FROM GPO_YQ_JHDW 
+            WHERE 
+        XH = #{xh} 
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoYqJhdw"></select>
+    <!--     业务sql      -->
+    <select id="jhdwList" resultType="com.buit.his.gpo.controller.response.JhdwResponse">
+        SELECT
+        t.*
+        FROM (
+        SELECT
+            yqjh.XH AS dzid,
+            jh.DWXH AS jhdwid,
+            jh.DWMC AS jhdwmc,
+            CASE WHEN yqjh.xh IS NULL THEN 0 ELSE 1  END AS dzzt,
+            yq.YPPSQYDATA_ID AS yqid,
+            yq.PSQYMC AS  yqmc
+            FROM drugs_jhdw jh
+            LEFT JOIN gpo_yq_jhdw yqjh ON yqjh.JHDWID = jh.DWXH
+            LEFT JOIN shyb_yppsqy yq ON yqjh.YQID = yq.YPPSQYDATA_ID
+            WHERE 1=1
+            <if test="kw != null">
+                AND (jh.DWMC LIKE CONCAT('%', #{kw}, '%') OR jh.PYDM LIKE CONCAT('%', #{kw},'%') )
+            </if>
+        ) t
+        WHERE 1=1
+        <if test="dzzt != null">
+            AND t.dzzt = #{dzzt}
+        </if>
+        ORDER BY t.jhdwmc ASC
+    </select>
+    <select id="yqList" resultType="com.buit.his.gpo.controller.response.YqResponse">
+        SELECT
+            yq.YPPSQYDATA_ID AS yqid,
+            yq.PSQYMC AS yqmc,
+            yq.TBDM AS yqtbdm
+        FROM shyb_yppsqy yq
+        WHERE 1=1
+        <if test="kw != null">
+            AND (yq.PSQYMC LIKE CONCAT('%',#{kw},'%') OR yq.PY_CODE LIKE CONCAT('%',#{kw},'%'))
+        </if>
+        ORDER BY yq.PSQYMC ASC
+
+    </select>
+    <select id="existJhdw" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+        FROM GPO_YQ_JHDW
+        WHERE JHDWID = #{jhdwid}
+    </select>
+    <select id="existYq" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+        FROM GPO_YQ_JHDW
+        WHERE YQID = #{yqid}
+    </select>
+    <select id="queryWdzJhdw" resultType="com.buit.his.gpo.service.result.JhdwYqIdMcDto">
+        SELECT
+            jh.DWXH AS jhdwid,
+            jh.DWMC AS mc
+        FROM drugs_jhdw jh
+        LEFT JOIN gpo_yq_jhdw yqjh ON yqjh.JHDWID = jh.DWXH
+        WHERE yqjh.XH IS NULL
+    </select>
+    <select id="queryWdzYq" resultType="com.buit.his.gpo.service.result.JhdwYqIdMcDto">
+        SELECT
+            yq.YPPSQYDATA_ID AS yqid,
+            yq.PSQYMC AS mc
+        FROM shyb_yppsqy yq
+        LEFT JOIN gpo_yq_jhdw yqjh ON yqjh.YQID = yq.YPPSQYDATA_ID
+        WHERE yqjh.XH IS NULL
+    </select>
+    <select id="jhdwbm" resultType="java.lang.String">
+        SELECT
+            yqjh.JHDWID
+        FROM gpo_yq_jhdw yqjh
+        LEFT JOIN shyb_yppsqy yq ON yqjh.YQID = yq.YPPSQYDATA_ID
+        WHERE yq.TBDM = #{yqbm}
+    </select>
+
+    <select id="queryJhdwxx" resultType="com.buit.his.gpo.dto.YqJhdwDto">
+        SELECT yq.tbdm as yqbm,yqjh.JHDWID
+        FROM gpo_yq_jhdw yqjh
+        inner JOIN shyb_yppsqy yq ON yqjh.YQID = yq.YPPSQYDATA_ID
+        WHERE yq.TBDM in (<foreach collection="list" item="d" separator=",">#{d}</foreach>)
+    </select>
+</mapper>
+

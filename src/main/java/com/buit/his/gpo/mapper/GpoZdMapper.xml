@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- gpo 字典 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoZdDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,`TYPE` as `type`,`CODE` as `code`,`TXT` as `txt`,`DESC` as `desc`
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_ZD (
+            XH ,
+            `TYPE` ,
+            `CODE` ,
+            `TXT` ,
+            `DESC`
+        ) VALUES (
+            #{xh} ,
+            #{type} ,
+            #{code} ,
+            #{txt} ,
+            #{desc} 
+        )
+    </insert>
+    
+    <update id="update" ><!--  
+        UPDATE GPO_ZD SET
+            `TYPE` = #{type} ,
+            `CODE` = #{code} ,
+            `TXT` = #{txt} ,
+            `DESC` = #{desc}
+        WHERE 
+            XH = #{xh} 
+            -->            
+    </update>
+
+    <delete id="deleteById"></delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoZd">
+        SELECT <include refid="columns" />
+            FROM GPO_ZD 
+            WHERE 
+        XH = #{xh} 
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoZd"></select>
+    <select id="zd" resultType="com.buit.his.gpo.model.GpoZd">
+        SELECT <include refid="columns" />
+        FROM GPO_ZD
+        WHERE `TYPE` = #{type}
+        ORDER BY `CODE` ASC
+    </select>
+    <!--     业务sql      -->
+</mapper>
+

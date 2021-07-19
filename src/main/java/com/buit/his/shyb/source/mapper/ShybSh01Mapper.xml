@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 门诊_门诊类别 -->
+<mapper namespace="com.buit.his.shyb.source.dao.ShybSh01Dao">
+
+    <delete id="deleteById">
+        DELETE FROM OP_MZLB WHERE
+        MZLB = #{mzlb} 
+    </delete>
+
+<!--  新增-->
+    <insert id="insertShybsh01">
+        INSERT INTO SHYB_SH01 (
+            JSSQXH ,
+            CARDTYPE ,
+            CARDID ,
+            PERSONNAME ,
+            PERSONSPECTAG ,
+            ACCOUNTATTR ,
+            TOTALEXPENSE ,
+            CURACCOUNTPAY ,
+            HISACCOUNTPAY ,
+            PERSONTYPE ,
+            ZFDXJZFS ,
+            ZFDLNZHZFS ,
+            TCDZHZFS ,
+            TCDXJZFS ,
+            TCZFS ,
+            FJDZHZFS ,
+            FJDXJZFS ,
+            FJZFS ,
+            CURACCOUNTAMT ,
+            HISACCOUNTAMT ,
+            YBJSFWFYZE ,
+            FYBJSFWFYZE ,
+            JLC ,
+            JMJSBZ ,
+            CARDDATA ,
+            JGDM ,
+            MZBS ,
+            KSDM ,
+            TS
+        ) VALUES (
+            #{jssqxh} ,
+            #{cardtype} ,
+            #{cardid} ,
+            #{personname} ,
+            #{personspectag} ,
+            #{accountattr} ,
+            #{totalexpense} ,
+            #{curaccountpay} ,
+            #{hisaccountpay} ,
+            #{persontype} ,
+            #{zfdxjzfs} ,
+            #{zfdlnzhzfs} ,
+            #{tcdzhzfs} ,
+            #{tcdxjzfs} ,
+            #{tczfs} ,
+            #{fjdzhzfs} ,
+            #{fjdxjzfs} ,
+            #{fjzfs} ,
+            #{curaccountamt} ,
+            #{hisaccountamt} ,
+            #{ybjsfwfyze} ,
+            #{fybjsfwfyze} ,
+            #{jlc} ,
+            #{jmjsbz} ,
+            #{carddata} ,
+            #{jgdm} ,
+            #{mzbs} ,
+            #{ksdm} ,
+            now()
+        )
+    </insert>
+
+    <!--  新增-->
+    <insert id="insertShybsh02">
+        INSERT INTO SHYB_SH02 (
+            JSSQXH ,
+            LSH ,
+            JGID ,
+            GHXH ,
+            GHSJ ,
+            CARDTYPE ,
+            CARDID ,
+            TOTALEXPENSE ,
+            CURACCOUNTPAY ,
+            HISACCOUNTPAY ,
+            ZFDXJZFS ,
+            TCDXJZFS ,
+            TCZFS ,
+            FJDXJZFS ,
+            FJZFS ,
+            CURACCOUNTAMT ,
+            HISACCOUNTAMT ,
+            YBJSFWFYZE ,
+            FYBJSFWFYZE ,
+            JMJSBZ ,
+            ZT ,
+            ZFPB ,
+            ZFDLNZHZFS ,
+            TCDZHZFS ,
+            FJDZHZFS ,
+            JLC ,
+            JZDYH ,
+            ORDERNO ,
+            PERSONTYPE ,
+            GSRDH ,
+            DBBZ
+        ) VALUES (
+            #{jssqxh} ,
+            #{lsh} ,
+            #{jgdm} ,
+            #{ghxh} ,
+            #{jysj} ,
+            #{cardtype} ,
+            #{cardid} ,
+            #{totalexpense} ,
+            #{curaccountpay} ,
+            #{hisaccountpay} ,
+            #{zfdxjzfs} ,
+            #{tcdxjzfs} ,
+            #{tczfs} ,
+            #{fjdxjzfs} ,
+            #{fjzfs} ,
+            #{curaccountamt} ,
+            #{hisaccountamt} ,
+            #{ybjsfwfyze} ,
+            #{fybjsfwfyze} ,
+            #{jmjsbz} ,
+            #{zt} ,
+            #{zfpb} ,
+            #{zfdlnzhzfs} ,
+            #{tcdzhzfs} ,
+            #{fjdzhzfs} ,
+            #{jlc} ,
+            #{jzdyh} ,
+            #{orderno} ,
+            #{persontype} ,
+            #{gsrdh} ,
+            #{dbbz}
+        )
+    </insert>
+
+    <!--  新增sk-->
+    <insert id="insertGhSk01">
+        INSERT INTO SHYB_SK01 (
+              TRANSLSH ,
+              JGID ,
+              TFLX ,
+              GLXH ,
+              FPHM ,
+              JSSJ ,
+              CARDTYPE ,
+              CARDID ,
+              PERSONNAME ,
+              ACCOUNTATTR ,
+              CURACCOUNT ,
+              HISACCOUNT ,
+              ZFCASH ,
+              TCHISACCOUNT ,
+              TCCASH ,
+              TC ,
+              DFFJHISACCOUNT ,
+              DFFJCASH ,
+              DFFJ ,
+              CURACCOUNTAMT ,
+              HISACCOUNTAMT ,
+              ZT ,
+              TOTALEXPENSE ,
+              YBJSFWFYZE ,
+              FYBJSFWFYZE
+        ) VALUES (
+              #{TRANSLSH} ,
+              #{JGID} ,
+              #{TFLX} ,
+              #{GLXH} ,
+              #{FPHM} ,
+              #{JSSJ} ,
+              #{CARDTYPE} ,
+              #{CARDID} ,
+              #{PERSONNAME} ,
+              #{ACCOUNTATTR} ,
+              #{CURACCOUNT} ,
+              #{HISACCOUNT} ,
+              #{ZFCASH} ,
+              #{TCHISACCOUNT} ,
+              #{TCCASH} ,
+              #{TC} ,
+              #{DFFJHISACCOUNT} ,
+              #{DFFJCASH} ,
+              #{DFFJ} ,
+              #{CURACCOUNTAMT} ,
+              #{HISACCOUNTAMT} ,
+              #{ZT} ,
+              #{TOTALEXPENSE} ,
+              #{YBJSFWFYZE} ,
+              #{FYBJSFWFYZE}
+        )
+    </insert>
+
+    <select id="getYbDbxmdm" resultType="YbDbdj">
+        SELECT  *
+            FROM SHYB_MZDB_DJ
+            WHERE YBKH = #{brkh}  and
+            DATE_ADD(djrq,interval 6 month)>#{date}
+    </select>
+
+    <select id="getGhybFee" resultType="java.util.Map">
+       select sh02.LSH 		as  LSH,sh02.zfpb as ZFPB,
+                     sh02.CARDTYPE       as CARDTYPE,
+                     sh02.TOTALEXPENSE      as TOTALEXPENSE,
+                     sh01.MZBS        as MZBS,
+                     sh02.YBJSFWFYZE  as YBJSFWFYZE,
+                     sh02.FYBJSFWFYZE as FYBJSFWFYZE,
+                     ghmx.JZHM        as FPHM
+                     from shyb_sh02 sh02, shyb_sh01 sh01, op_ghmx ghmx
+                     where sh01.jssqxh = sh02.jssqxh
+                     and ghmx.sbxh = sh02.ghxh
+                     and sh02.zt = '1'
+
+                     and sh02.ghxh = #{sbxh}
+    </select>
+
+    <select id="getSfybFee" resultType="java.util.Map">
+      select si12.LSH as LSH,'2' as MZBS,
+                   si12.CARDTYPE as CARDTYPE,
+                   si12.TOTALEXPENSE as TOTALEXPENSE,
+                   si12.YBJSFWFYZE as YBJSFWFYZE,
+                   si12.FYBJSFWFYZE as FYBJSFWFYZE,
+                    mzxx.FPHM as FPHM
+                   from shyb_si12 si12, shyb_si11 si11,op_mzxx mzxx
+                   where si12.jssqxh = si11.jssqxh
+                   and mzxx.mzxh = si12.mzxh
+                   and si12.mzxh = #{sbxh}
+    </select>
+
+    <select id="getZyybFee" resultType="java.util.Map">
+        SELECT si52.lsh,
+                    si52.cardtype,
+                    si52.zyhm,
+                    si52.totalexpense      as totalexpense,
+                    si52.ybjsfwfyze  as totfy,
+                    si52.FYBJSFWFYZE as zf,
+                    zyjs.fphm,
+                    zyjs.jscs
+          FROM shyb_si51 si51,
+                    shyb_si52 si52,
+                    im_zyjs zyjs
+         WHERE si51.jssqxh = si52.jssqxh
+           and zyjs.zyh = si52.zyhm
+           and zyjs.jscs = si52.jscs
+           and si52.zfpb = '0'
+           and zyjs.zfpb = '0'
+             and zyjs.fphm = #{sbxh}
+    </select>
+
+    <select id="getJzdyh" resultType="java.util.Map">
+       SELECT
+                b.jzdyh as jzdyh,a.ksdm as ksdm
+	     from
+	            OP_GHMX a left join shyb_sh02 b on a.SBXH = b.GHXH
+						 where a.thbz = 0
+						 and a.jgid = #{jgid}
+						 and a.ksdm = #{ghks}
+						 and date_format(a.ghsj,'%Y-%m-%d %H:%i:%s') >= #{currDate}
+						 and a.brid=  #{brid}
+						 order by a.ghsj desc
+    </select>
+
+    <!--<select id="getSeqMsgid" resultType="java.util.Map">-->
+       <!--SELECT-->
+           <!--nextval(#{seq_name}) as seq from dual-->
+    <!--</select>-->
+
+    <!--<select id="getSeqMsgids" resultType="java.util.Map">-->
+       <!--SELECT-->
+           <!--jssqxh from shyb_sh01-->
+    <!--</select>-->
+
+    <select id="getDbtype" resultType="java.util.Map">
+       select
+          a.dbbz as dbbz from shyb_sh02 a,op_ghmx b
+        where
+          a.ghxh=b.sbxh and a.zfpb=0 and b.thbz=0 and b.jzlsh= #{jzlsh}  and a.cardid=#{jzkh}
+    </select>
+
+    <update id="updateSh02" >
+    	update SHYB_SH02 set ZFPB = 1  where ghxh = #{SBXH}
+    </update>
+
+    <update id="updateSi12" >
+    	update SHYB_SI12 set ZFPB = 1  where mzxh = #{SBXH}
+    </update>
+
+    <select id="getGsrdh" resultType="java.util.Map">
+       select
+          a.gsrdh as gsrdh from shyb_sh02 a,op_ghmx b
+        where
+          a.ghxh=b.sbxh and a.zfpb=0 and b.thbz=0 and b.jzlsh= #{jzlsh}  and a.cardid=#{jzkh}
+    </select>
+
+    <update id="updateSi12bftf" >
+    	update SHYB_SI12 set mzxh = #{mzxh}  where jssqxh = #{jssqxh} and mzxh='9825'
+    </update>
+
+</mapper>
+

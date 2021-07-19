@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 门诊_门诊类别 -->
+<mapper namespace="com.buit.his.shyb.source.dao.ShybSjd1Dao">
+
+    <!--  新增-->
+    <insert id="insertShybSldj">
+        INSERT INTO SHYB_SLRY_DJ (
+              DJXH        ,
+              BRKH        ,
+              BRXM       ,
+              DJBH         ,
+              BDSJ          ,
+              CZGH         ,
+              DJBZ          ,
+              ISCAL         ,
+              CALRQ        ,
+              ZCYYBM      ,
+              ZRYYBM      ,
+              ZYRQ          ,
+              MZLB
+
+        ) VALUES (
+              #{djxh}        ,
+              #{brkh}        ,
+              #{brxm}       ,
+              #{djbh}         ,
+              #{bdsj}          ,
+              #{czgh}         ,
+              #{djbz}          ,
+              #{iscal}         ,
+              #{calrq}        ,
+              #{zcyybm}      ,
+              #{zryybm}      ,
+              #{zyrq}          ,
+              #{mzlb}
+        )
+    </insert>
+<!--删除居保 登记-->
+    <delete id="deleteShybSldj">
+        DELETE FROM SHYB_SLRY_DJ WHERE
+        DJBH = #{zmdh}
+    </delete>
+
+    <!-- 删除转诊医院-->
+    <delete id="deleteZcyydm">
+        DELETE FROM PUB_ZZYYDM
+    </delete>
+
+    <insert id="insertZcyydm">
+        INSERT INTO PUB_ZZYYDM (
+              ID           ,
+              NAME     ,
+              CODE      ,
+              PYDM
+        ) VALUES (
+              #{id}        ,
+              #{name}   ,
+              #{code}    ,
+              #{pydm}
+        )
+    </insert>
+
+    <update id="update" >
+        UPDATE SHYB_SLRY_DJ SET
+           ISCAL = 1 ,
+            ACTUAL_CALDATE = now() ,
+            ISCAL           = #{bz} ,
+            ACTUAL_CXGH = #{xxsm}
+        WHERE
+            JGID = #{jgid}  AND
+            CSMC = #{csmc}
+    </update>
+
+</mapper>
+

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO退货单 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoThdDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,CZLX as czlx,YYBM as yybm,PSDBM as psdbm,YQMC as yqmc,YQBM as yqbm,THDBH as thdbh,DLCGBZ as dlcgbz,SPLX as splx,SPMC as spmc,ZXSPBM as zxspbm,GGBZ as ggbz,CGJLDW as cgjldw,SCPH as scph,THSL as thsl,THDJ as thdj,THZJ as thzj,THYY as thyy,ZT as zt,SCSJ as scsj,SCRDM as scrdm,CBZT as cbzt,CBSJ as cbsj,CBRDM as cbrdm,ZFZT as zfzt,ZFSJ as zfsj,ZFRDM as zfrdm,QRZT as qrzt,QRSJ as qrsj,QRRDM as qrrdm,C_USER as cuser,C_UNAME as cuname,C_TIME as ctime
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_THD (
+            XH ,
+            JGID ,
+            CZLX ,
+            YYBM ,
+            PSDBM ,
+            YQMC ,
+            YQBM ,
+            THDBH ,
+            DLCGBZ ,
+            SPLX ,
+            SPMC ,
+            ZXSPBM ,
+            GGBZ ,
+            CGJLDW ,
+            SCPH ,
+            THSL ,
+            THDJ ,
+            THZJ ,
+            THYY ,
+            ZT ,
+            SCSJ ,
+            SCRDM ,
+            CBZT ,
+            CBSJ ,
+            CBRDM ,
+            ZFZT ,
+            ZFSJ ,
+            ZFRDM ,
+            QRZT ,
+            QRSJ ,
+            QRRDM ,
+            C_USER ,
+            C_UNAME ,
+            C_TIME 
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{czlx} ,
+            #{yybm} ,
+            #{psdbm} ,
+            #{yqmc} ,
+            #{yqbm} ,
+            #{thdbh} ,
+            #{dlcgbz} ,
+            #{splx} ,
+            #{spmc} ,
+            #{zxspbm} ,
+            #{ggbz} ,
+            #{cgjldw} ,
+            #{scph} ,
+            #{thsl} ,
+            #{thdj} ,
+            #{thzj} ,
+            #{thyy} ,
+            #{zt} ,
+            #{scsj} ,
+            #{scrdm} ,
+            #{cbzt} ,
+            #{cbsj} ,
+            #{cbrdm} ,
+            #{zfzt} ,
+            #{zfsj} ,
+            #{zfrdm} ,
+            #{qrzt} ,
+            #{qrsj} ,
+            #{qrrdm} ,
+            #{cuser} ,
+            #{cuname} ,
+            #{ctime} 
+        )
+    </insert>
+    
+    <update id="update" >
+        UPDATE GPO_THD SET
+            JGID = #{jgid} ,
+            CZLX = #{czlx} ,
+            YYBM = #{yybm} ,
+            PSDBM = #{psdbm} ,
+            YQMC = #{yqmc} ,
+            YQBM = #{yqbm} ,
+            THDBH = #{thdbh} ,
+            DLCGBZ = #{dlcgbz} ,
+            SPLX = #{splx} ,
+            SPMC = #{spmc} ,
+            ZXSPBM = #{zxspbm} ,
+            GGBZ = #{ggbz} ,
+            CGJLDW = #{cgjldw} ,
+            SCPH = #{scph} ,
+            THSL = #{thsl} ,
+            THDJ = #{thdj} ,
+            THZJ = #{thzj} ,
+            THYY = #{thyy} ,
+            ZT = #{zt} ,
+            SCSJ = #{scsj} ,
+            SCRDM = #{scrdm} ,
+            CBZT = #{cbzt} ,
+            CBSJ = #{cbsj} ,
+            CBRDM = #{cbrdm} ,
+            ZFZT = #{zfzt} ,
+            ZFSJ = #{zfsj} ,
+            ZFRDM = #{zfrdm} ,
+            QRZT = #{qrzt} ,
+            QRSJ = #{qrsj} ,
+            QRRDM = #{qrrdm} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} ,
+            C_TIME = #{ctime} 
+        WHERE 
+            XH = #{xh}
+    </update>
+
+    <delete id="deleteById"></delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoThd">
+        SELECT <include refid="columns" />
+            FROM GPO_THD 
+            WHERE 
+        XH = #{xh} 
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoThd"></select>
+    <select id="list" resultType="com.buit.his.gpo.model.GpoThd">
+        SELECT <include refid="columns" />
+        FROM GPO_THD
+        <where>
+            ZT = 1
+            AND JGID = #{jgid}
+            <if test="rqks != null">
+                AND C_TIME >= #{rqks}
+            </if>
+            <if test="rqjz != null">
+                AND C_TIME &lt;= #{rqjz}
+            </if>
+            <if test="yqbm != null">
+                AND YQBM = #{yqbm}
+            </if>
+            <if test="(cbzt != null and cbzt.size() > 0) || qrzt != null || zfzt != null">
+                AND (
+                <trim prefixOverrides="OR">
+                    <if test="cbzt != null and cbzt.size() > 0">
+                        CBZT IN
+                        <foreach collection="cbzt" item="cb" open="(" separator="," close=")">
+                            <if test="cb != null">
+                                #{cb}
+                            </if>
+                        </foreach>
+                    </if>
+
+                    <if test="qrzt != null">
+                        OR QRZT = #{qrzt}
+                    </if>
+                    <if test="zfzt != null">
+                        OR ZFZT = #{zfzt}
+                    </if>
+                </trim>
+                )
+            </if>
+        </where>
+    </select>
+    <!--     业务sql      -->
+
+    <select id="selectPsdmc" resultType="java.lang.String">
+        select
+        PSDMC
+        from
+        gpo_psdxx
+        where PSDBM=#{psdbm} and jgid=#{jgid}
+
+    </select>
+</mapper>
+

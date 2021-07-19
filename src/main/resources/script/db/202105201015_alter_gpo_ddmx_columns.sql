@@ -1,0 +1,2 @@
+ALTER TABLE `gpo_ddmx`
+MODIFY COLUMN `CGJLDW` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '采购计量单位 必填 详见4.1.23采购计量单位' AFTER `GGBZ`;

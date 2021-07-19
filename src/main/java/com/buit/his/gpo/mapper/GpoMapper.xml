@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO报价单 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoDao">
+
+    <select id="ypList" resultType="com.buit.his.gpo.controller.response.SpResp">
+        SELECT
+               distinct
+            yp.YPJCXXDATA_ID AS spid,
+            yp.TBDM AS tbdm,
+            yp.YPTYM AS yptym,
+            yp.GG AS gg,
+            cd.cdmc AS scqy,
+            jg.JJDW AS cgjldw,
+            jg.JHGZJGJE AS cgdj,
+            mr.yqbm,
+            mr.yqmc
+        FROM shyb_ypjcxx yp
+        inner join  drugs_ybyp drug on yp.TBDM=drug.ybbm
+        inner join drugs_cddz cd on drug.ypcd=cd.ypcd
+        inner join drugs_ypxx dy on dy.ypxh=drug.ypxh
+        LEFT JOIN shyb_ypjggz jg ON yp.TBDM = jg.TBDM
+        left join gpo_mryq mr on yp.tbdm = mr.tbdm
+        WHERE yp.HOSPITAL_ID = #{jgid} and dy.yksb=#{yksb} and drug.qybz=1
+        AND jg.QYRQ &lt; #{rq}
+        AND jg.YXRQ > #{rq}
+        <if test="kw != null">
+            AND (yp.YPTYM LIKE CONCAT('%', #{kw}, '%')
+            OR yp.TBDM LIKE CONCAT('%', #{kw}, '%')
+            OR yp.PY_CODE LIKE CONCAT('%', #{kw}, '%'))
+        </if>
+        order by length(yp.PY_CODE)
+    </select>
+
+    <select id="yqList" resultType="com.buit.his.gpo.controller.response.YqResp">
+        SELECT
+            yq.TBDM,
+            yq.PSQYMC AS MC
+        FROM gpo_yq_jhdw jhdw
+        LEFT JOIN shyb_yppsqy yq ON jhdw.YQID = yq.YPPSQYDATA_ID
+        WHERE (yq.TBDM LIKE CONCAT('%', #{kw}, '%') OR yq.PY_CODE LIKE CONCAT('%', #{kw}, '%'))
+        ORDER BY yq.PSQYMC ASC
+    </select>
+    <select id="yp" resultType="com.buit.his.gpo.controller.response.SpResp">
+        SELECT
+            yp.YPJCXXDATA_ID AS spid,
+            yp.TBDM AS tbdm,
+            yp.YPTYM AS yptym,
+            yp.GG AS gg,
+            yp.SCQY AS scqy,
+            jg.JJDW AS cgjldw,
+            jg.JHGZJGJE AS cgdj
+        FROM shyb_ypjcxx yp
+        LEFT JOIN shyb_ypjggz jg ON yp.TBDM = jg.TBDM
+        WHERE yp.TBDM = #{tbdm}
+        AND jg.QYRQ &lt; #{rq}
+        AND jg.YXRQ > #{rq}
+    </select>
+    <select id="selectYpCdJgByYbbm" resultType="com.buit.his.gpo.service.result.YpcdjgDto">
+        SELECT
+            ybyp.ybbm,
+            ybyp.ypxh,
+            ybyp.ypcd,
+            ypcd.JHJG
+        FROM
+            drugs_ybyp ybyp
+            LEFT JOIN drugs_ypcd ypcd ON ybyp.ypxh = ypcd.YPXH
+            AND ybyp.ypcd = ypcd.YPCD
+        WHERE
+            ybyp.jgid = #{jgid}
+            AND ybyp.qybz = 1
+            AND ybyp.ybbm = #{ybbm}
+    </select>
+    <select id="queryByTbdm" resultType="com.buit.his.gpo.service.result.YpcdjgDto">
+        SELECT
+            ybyp.ybbm,
+            ybyp.ypxh,
+            ybyp.ypcd,
+            ypcd.JHJG
+        FROM
+            drugs_ybyp ybyp
+                LEFT JOIN drugs_ypcd ypcd ON ybyp.ypxh = ypcd.YPXH
+                AND ybyp.ypcd = ypcd.YPCD
+        WHERE
+            ybyp.jgid = #{jgid}
+          AND ybyp.qybz = 1
+        AND ybyp.ybbm in (<foreach collection="list" item="t" separator="," >#{t}</foreach>)
+    </select>
+    <select id="selectYksb" resultType="java.lang.Integer">
+        select
+            yksb
+        from
+         drugs_yklb where yklb=#{yklb} limit 1
+    </select>
+
+    <select id="queryByTbbmAndYxrq" resultType="com.buit.his.gpo.controller.response.SpResp">
+        SELECT
+            yp.YPJCXXDATA_ID AS spid,
+            yp.TBDM AS tbdm,
+            yp.YPTYM AS yptym,
+            yp.GG AS gg,
+            yp.SCQY AS scqy,
+            jg.JJDW AS cgjldw,
+            jg.JHGZJGJE AS cgdj
+        FROM shyb_ypjcxx yp
+        LEFT JOIN shyb_ypjggz jg ON yp.TBDM = jg.TBDM
+        WHERE yp.TBDM in (<foreach collection="list" item="d" separator=",">#{d}</foreach>)
+        AND jg.QYRQ &lt; #{yxrq}
+        AND jg.YXRQ > #{yxrq}
+    </select>
+</mapper>
+

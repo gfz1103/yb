@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 门诊_门诊类别 -->
+<mapper namespace="com.buit.his.shyb.source.dao.ShybZhbzDao">
+
+    <delete id="deleteById">
+        DELETE FROM MS_MZLB WHERE
+        MZLB = #{mzlb}
+    </delete>
+
+<!--  查询账户标志-->
+    <select id="getZhbzBrxz" resultType="java.util.Map">
+        SELECT  ZHBZ as ZHBZ,BRXZ as BRXZ
+            FROM SHYB_ZHBZ
+            WHERE 
+       ZHBZ = #{zhbz}
+    </select>
+
+    <select id="getYbDbxmdm" resultType="YbDbdj">
+        SELECT  *
+            FROM SHYB_MZDB_DJ
+            WHERE YBKH = #{brkh}  and
+            DATE_ADD(djrq,interval 6 month)>#{date}
+    </select>
+
+
+
+
+
+</mapper>
+

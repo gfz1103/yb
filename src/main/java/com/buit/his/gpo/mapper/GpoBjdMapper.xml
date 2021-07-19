@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO报价单 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoBjdDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,GPO_JGID as gpoJgid,BJDBH as bjdbh,XJDBH as xjdbh,YQBM as yqbm,YQMC as yqmc,SPLX as splx,YPLX as yplx,ZXSPBM as zxspbm,CPM as cpm,YPJX as ypjx,GG as gg,BZDWXZ as bzdwxz,BZDWMC as bzdwmc,YYDWMC as yydwmc,BZNHSL as bznhsl,SCQYMC as scqymc,YPBJ as ypbj,ZT as zt,SCSJ as scsj,SCRDM as scrdm,C_TIME as ctime,C_USER as cuser,C_UNAME as cuname
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_BJD (
+            XH ,
+            JGID ,
+            GPO_JGID ,
+            BJDBH ,
+            XJDBH ,
+            YQBM ,
+            YQMC ,
+            SPLX ,
+            YPLX ,
+            ZXSPBM ,
+            CPM ,
+            YPJX ,
+            GG ,
+            BZDWXZ ,
+            BZDWMC ,
+            YYDWMC ,
+            BZNHSL ,
+            SCQYMC ,
+            YPBJ ,
+            ZT ,
+            SCSJ ,
+            SCRDM ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME 
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{gpoJgid} ,
+            #{bjdbh} ,
+            #{xjdbh} ,
+            #{yqbm} ,
+            #{yqmc} ,
+            #{splx} ,
+            #{yplx} ,
+            #{zxspbm} ,
+            #{cpm} ,
+            #{ypjx} ,
+            #{gg} ,
+            #{bzdwxz} ,
+            #{bzdwmc} ,
+            #{yydwmc} ,
+            #{bznhsl} ,
+            #{scqymc} ,
+            #{ypbj} ,
+            #{zt} ,
+            #{scsj} ,
+            #{scrdm} ,
+            #{ctime} ,
+            #{cuser} ,
+            #{cuname} 
+        )
+    </insert>
+    
+    <update id="update" >
+        UPDATE GPO_BJD SET
+            JGID = #{jgid} ,
+            GPO_JGID = #{gpoJgid} ,
+            BJDBH = #{bjdbh} ,
+            XJDBH = #{xjdbh} ,
+            YQBM = #{yqbm} ,
+            YQMC = #{yqmc} ,
+            SPLX = #{splx} ,
+            YPLX = #{yplx} ,
+            ZXSPBM = #{zxspbm} ,
+            CPM = #{cpm} ,
+            YPJX = #{ypjx} ,
+            GG = #{gg} ,
+            BZDWXZ = #{bzdwxz} ,
+            BZDWMC = #{bzdwmc} ,
+            YYDWMC = #{yydwmc} ,
+            BZNHSL = #{bznhsl} ,
+            SCQYMC = #{scqymc} ,
+            YPBJ = #{ypbj} ,
+            ZT = #{zt} ,
+            SCSJ = #{scsj} ,
+            SCRDM = #{scrdm} ,
+            C_TIME = #{ctime} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} 
+        WHERE 
+            XH = #{xh}
+    </update>
+
+    <delete id="deleteById"></delete>
+    
+    <delete id="removeByEntity"></delete>
+
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoBjd">
+        SELECT <include refid="columns" />
+            FROM GPO_BJD 
+            WHERE 
+        XH = #{xh} 
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoBjd"></select>
+
+    <!--     业务sql      -->
+</mapper>
+

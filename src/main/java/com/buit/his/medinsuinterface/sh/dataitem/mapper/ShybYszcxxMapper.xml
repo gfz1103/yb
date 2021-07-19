@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 上海医保医师注册信息 -->
+<mapper namespace="com.buit.his.medinsuinterface.sh.dataitem.dao.ShybYszcxxDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        YBDOCTORDATA_ID as ybdoctordataId,DATA_VERSION as dataVersion,GMT_CREATE as gmtCreate,GMT_MODIFY as gmtModify,HOSPITAL_ID as hospitalId,DOCTOR_YB_CODE as doctorYbCode,DOCTOR_NAME as doctorName,DOCTOR_SEX as doctorSex,DOCUMENT_TYPE as documentType,DOCUMENT_NO as documentNo,QUA_NO as quaNo,WORK_NO as workNo,EMP_NO as empNo,HSP_CODE as hspCode,HSP_NAME as hspName,IS_HSP as isHsp,DEPT_NAME1 as deptName1,DEPT_NAME2 as deptName2,DEPT_NAME3 as deptName3,IF_TX_DOCTOR as ifTxDoctor,IF_SYZ_DOCTOR as ifSyzDoctor,IF_GYZ_DOCTOR as ifGyzDoctor,IF_DRUG_DOCTOR as ifDrugDoctor,DOCTOR_LEVEL as doctorLevel,WORK_PLACE as workPlace,BIRTHDAY as birthday,DOCTOR_TYPE as doctorType,WORK_RANGE1 as workRange1,WORK_RANGE2 as workRange2,WORK_RANGE3 as workRange3,HIGH_EDU as highEdu,CAPTION as caption,CER_DATE as cerDate,BEGIN_DATE as beginDate,END_DATE as endDate,UNDETER as undeter,LOCK_FLAG as lockFlag,PY_CODE as pyCode,WB_CODE as wbCode
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO SHYB_YSZCXX (
+            YBDOCTORDATA_ID ,
+            DATA_VERSION ,
+            GMT_CREATE ,
+            GMT_MODIFY ,
+            HOSPITAL_ID ,
+            DOCTOR_YB_CODE ,
+            DOCTOR_NAME ,
+            DOCTOR_SEX ,
+            DOCUMENT_TYPE ,
+            DOCUMENT_NO ,
+            QUA_NO ,
+            WORK_NO ,
+            EMP_NO ,
+            HSP_CODE ,
+            HSP_NAME ,
+            IS_HSP ,
+            DEPT_NAME1 ,
+            DEPT_NAME2 ,
+            DEPT_NAME3 ,
+            IF_TX_DOCTOR ,
+            IF_SYZ_DOCTOR ,
+            IF_GYZ_DOCTOR ,
+            IF_DRUG_DOCTOR ,
+            DOCTOR_LEVEL ,
+            WORK_PLACE ,
+            BIRTHDAY ,
+            DOCTOR_TYPE ,
+            WORK_RANGE1 ,
+            WORK_RANGE2 ,
+            WORK_RANGE3 ,
+            HIGH_EDU ,
+            CAPTION ,
+            CER_DATE ,
+            BEGIN_DATE ,
+            END_DATE ,
+            UNDETER ,
+            PY_CODE,
+            WB_CODE
+        ) VALUES (
+            #{ybdoctordataId} ,
+            #{dataVersion} ,
+            #{gmtCreate} ,
+            #{gmtCreate} ,
+            #{hospitalId} ,
+            #{doctorYbCode} ,
+            #{doctorName} ,
+            #{doctorSex} ,
+            #{documentType} ,
+            #{documentNo} ,
+            #{quaNo} ,
+            #{workNo} ,
+            #{empNo} ,
+            #{hspCode} ,
+            #{hspName} ,
+            #{isHsp} ,
+            #{deptName1} ,
+            #{deptName2} ,
+            #{deptName3} ,
+            #{ifTxDoctor} ,
+            #{ifSyzDoctor} ,
+            #{ifGyzDoctor} ,
+            #{ifDrugDoctor} ,
+            #{doctorLevel} ,
+            #{workPlace} ,
+            #{birthday} ,
+            #{doctorType} ,
+            #{workRange1} ,
+            #{workRange2} ,
+            #{workRange3} ,
+            #{highEdu} ,
+            #{caption} ,
+            #{cerDate} ,
+            #{beginDate} ,
+            #{endDate} ,
+            #{undeter} ,
+            #{pyCode},
+            #{wbCode}
+        )
+    </insert>
+    
+    <update id="update" >
+        UPDATE SHYB_YSZCXX SET
+            DATA_VERSION = #{dataVersion} ,
+            GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} ,
+            HOSPITAL_ID = #{hospitalId} ,
+            DOCTOR_YB_CODE = #{doctorYbCode} ,
+            DOCTOR_NAME = #{doctorName} ,
+            PY_CODE = #{pyCode},
+            WB_CODE = #{wbCode},
+            DOCTOR_SEX = #{doctorSex} ,
+            DOCUMENT_TYPE = #{documentType} ,
+            DOCUMENT_NO = #{documentNo} ,
+            QUA_NO = #{quaNo} ,
+            WORK_NO = #{workNo} ,
+            EMP_NO = #{empNo} ,
+            HSP_CODE = #{hspCode} ,
+            HSP_NAME = #{hspName} ,
+            IS_HSP = #{isHsp} ,
+            DEPT_NAME1 = #{deptName1} ,
+            DEPT_NAME2 = #{deptName2} ,
+            DEPT_NAME3 = #{deptName3} ,
+            IF_TX_DOCTOR = #{ifTxDoctor} ,
+            IF_SYZ_DOCTOR = #{ifSyzDoctor} ,
+            IF_GYZ_DOCTOR = #{ifGyzDoctor} ,
+            IF_DRUG_DOCTOR = #{ifDrugDoctor} ,
+            DOCTOR_LEVEL = #{doctorLevel} ,
+            WORK_PLACE = #{workPlace} ,
+            BIRTHDAY = #{birthday} ,
+            DOCTOR_TYPE = #{doctorType} ,
+            WORK_RANGE1 = #{workRange1} ,
+            WORK_RANGE2 = #{workRange2} ,
+            WORK_RANGE3 = #{workRange3} ,
+            HIGH_EDU = #{highEdu} ,
+            CAPTION = #{caption} ,
+            CER_DATE = #{cerDate} ,
+            BEGIN_DATE = #{beginDate} ,
+            END_DATE = #{endDate} ,
+            UNDETER = #{undeter} 
+        WHERE 
+            YBDOCTORDATA_ID = #{ybdoctordataId} 
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM SHYB_YSZCXX WHERE
+        YBDOCTORDATA_ID = #{ybdoctordataId} 
+    </delete>
+    
+    <delete id="removeByEntity">
+        DELETE FROM SHYB_YSZCXX <include refid="where"/>  
+    </delete>
+    
+    <select id="getById" resultType="ShybYszcxx">
+        SELECT <include refid="columns" />
+            FROM SHYB_YSZCXX 
+            WHERE
+        YBDOCTORDATA_ID = #{ybdoctordataId} 
+    </select>
+    <select id="checkCode" resultType="int">
+        SELECT count(1)
+            FROM SHYB_YSZCXX
+            WHERE DOCTOR_YB_CODE = #{doctorYbCode}
+        <if test="@sqlt.Ognl@isNotEmpty(ybdoctordataId)">
+             AND YBDOCTORDATA_ID != #{ybdoctordataId}
+        </if>
+    </select>
+
+    <sql id="where">
+        <where>                          
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ybdoctordataId)"> -->
+<!--                     AND YBDOCTORDATA_ID = #{ybdoctordataId} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataVersion)"> -->
+<!--                     AND DATA_VERSION = #{dataVersion} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtCreate)"> -->
+<!--                     AND GMT_CREATE = #{gmtCreate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtModify)"> -->
+<!--                     AND GMT_MODIFY = #{gmtModify} -->
+<!--                </if> -->
+               <if test="@sqlt.Ognl@isNotEmpty(hospitalId)">
+                    AND HOSPITAL_ID = #{hospitalId}
+               </if>
+<!--                <if test="@sqlt.Ognl@isNotEmpty(doctorYbCode)"> -->
+<!--                     AND DOCTOR_YB_CODE = #{doctorYbCode} -->
+<!--                </if> -->
+               <if test="@sqlt.Ognl@isNotEmpty(doctorName)">
+                    AND (
+                            DOCTOR_NAME LIKE CONCAT(CONCAT('%',UPPER(#{doctorName})),'%')
+                            or PY_CODE LIKE CONCAT(CONCAT('%',UPPER(#{doctorName})),'%')
+                            or WB_CODE LIKE CONCAT(CONCAT('%',UPPER(#{doctorName})),'%')
+                   )
+               </if>
+<!--                <if test="@sqlt.Ognl@isNotEmpty(doctorSex)"> -->
+<!--                     AND DOCTOR_SEX = #{doctorSex} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(documentType)"> -->
+<!--                     AND DOCUMENT_TYPE = #{documentType} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(documentNo)"> -->
+<!--                     AND DOCUMENT_NO = #{documentNo} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(quaNo)"> -->
+<!--                     AND QUA_NO = #{quaNo} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(workNo)"> -->
+<!--                     AND WORK_NO = #{workNo} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(empNo)"> -->
+<!--                     AND EMP_NO = #{empNo} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(hspCode)"> -->
+<!--                     AND HSP_CODE = #{hspCode} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(hspName)"> -->
+<!--                     AND HSP_NAME = #{hspName} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(isHsp)"> -->
+<!--                     AND IS_HSP = #{isHsp} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(deptName1)"> -->
+<!--                     AND DEPT_NAME1 = #{deptName1} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(deptName2)"> -->
+<!--                     AND DEPT_NAME2 = #{deptName2} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(deptName3)"> -->
+<!--                     AND DEPT_NAME3 = #{deptName3} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ifTxDoctor)"> -->
+<!--                     AND IF_TX_DOCTOR = #{ifTxDoctor} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ifSyzDoctor)"> -->
+<!--                     AND IF_SYZ_DOCTOR = #{ifSyzDoctor} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ifGyzDoctor)"> -->
+<!--                     AND IF_GYZ_DOCTOR = #{ifGyzDoctor} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ifDrugDoctor)"> -->
+<!--                     AND IF_DRUG_DOCTOR = #{ifDrugDoctor} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(doctorLevel)"> -->
+<!--                     AND DOCTOR_LEVEL = #{doctorLevel} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(workPlace)"> -->
+<!--                     AND WORK_PLACE = #{workPlace} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(birthday)"> -->
+<!--                     AND BIRTHDAY = #{birthday} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(doctorType)"> -->
+<!--                     AND DOCTOR_TYPE = #{doctorType} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(workRange1)"> -->
+<!--                     AND WORK_RANGE1 = #{workRange1} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(workRange2)"> -->
+<!--                     AND WORK_RANGE2 = #{workRange2} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(workRange3)"> -->
+<!--                     AND WORK_RANGE3 = #{workRange3} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(highEdu)"> -->
+<!--                     AND HIGH_EDU = #{highEdu} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(caption)"> -->
+<!--                     AND CAPTION = #{caption} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(cerDate)"> -->
+<!--                     AND CER_DATE = #{cerDate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(beginDate)"> -->
+<!--                     AND BEGIN_DATE = #{beginDate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(endDate)"> -->
+<!--                     AND END_DATE = #{endDate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(undeter)"> -->
+<!--                     AND UNDETER = #{undeter} -->
+<!--                </if> -->
+        </where>
+    </sql>
+        
+    <select id="findByEntityCount" resultType="long">
+        SELECT count(*) FROM SHYB_YSZCXX 
+        <include refid="where"/>    
+    </select>
+    
+    <select id="findByEntity" resultType="ShybYszcxx">
+        SELECT <include refid="columns" />
+        FROM SHYB_YSZCXX 
+        <include refid="where"/>
+        
+        <if test="@sqlt.Ognl@orderIsNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+    <!--     业务sql      -->
+    <update id="updateByYbCode" >
+        UPDATE SHYB_YSZCXX SET
+            DATA_VERSION = #{dataVersion} ,
+            GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} ,
+            HOSPITAL_ID = #{hospitalId} ,
+            DOCTOR_YB_CODE = #{doctorYbCode} ,
+            DOCTOR_NAME = #{doctorName} ,
+            DOCTOR_SEX = #{doctorSex} ,
+            DOCUMENT_TYPE = #{documentType} ,
+            DOCUMENT_NO = #{documentNo} ,
+            QUA_NO = #{quaNo} ,
+            WORK_NO = #{workNo} ,
+            EMP_NO = #{empNo} ,
+            HSP_CODE = #{hspCode} ,
+            HSP_NAME = #{hspName} ,
+            IS_HSP = #{isHsp} ,
+            DEPT_NAME1 = #{deptName1} ,
+            DEPT_NAME2 = #{deptName2} ,
+            DEPT_NAME3 = #{deptName3} ,
+            IF_TX_DOCTOR = #{ifTxDoctor} ,
+            IF_SYZ_DOCTOR = #{ifSyzDoctor} ,
+            IF_GYZ_DOCTOR = #{ifGyzDoctor} ,
+            IF_DRUG_DOCTOR = #{ifDrugDoctor} ,
+            DOCTOR_LEVEL = #{doctorLevel} ,
+            WORK_PLACE = #{workPlace} ,
+            BIRTHDAY = #{birthday} ,
+            DOCTOR_TYPE = #{doctorType} ,
+            WORK_RANGE1 = #{workRange1} ,
+            WORK_RANGE2 = #{workRange2} ,
+            WORK_RANGE3 = #{workRange3} ,
+            HIGH_EDU = #{highEdu} ,
+            CAPTION = #{caption} ,
+            CER_DATE = #{cerDate} ,
+            BEGIN_DATE = #{beginDate} ,
+            END_DATE = #{endDate} ,
+            UNDETER = #{undeter} 
+        WHERE 
+            DOCTOR_YB_CODE = #{doctorYbCode} 
+    </update>
+    
+    <update id="updateLockFlag" >
+    	UPDATE SHYB_YSZCXX SET
+            LOCK_FLAG = #{lockFlag}
+        WHERE 
+            YBDOCTORDATA_ID = #{ybdoctordataId} 
+    </update>
+</mapper>
+

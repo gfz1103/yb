@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 药品品规基础信息表 -->
+<mapper namespace="com.buit.his.medinsuinterface.sh.dataitem.dao.ShybYpjcxxDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        YPJCXXDATA_ID as ypjcxxdataId,DATA_VERSION as dataVersion,GMT_CREATE as gmtCreate,GMT_MODIFY as gmtModify,HOSPITAL_ID as hospitalId,TBDM as tbdm,FBRQ as fbrq,FBLX as fblx,PZWH as pzwh,BWM as bwm,YPTYM as yptym,YWM as ywm,JX as jx,GG as gg,SCQY as scqy,SPM as spm,BZDW as bzdw,BZSL as bzsl,BZCZ as bzcz,BZFS as bzfs,GGBZWZBS as ggbzwzbs,YPSX as ypsx,CKFL as ckfl,BZXX as bzxx,QYRQ as qyrq,YXRQ as yxrq,BGZD as bgzd
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO SHYB_YPJCXX (
+            YPJCXXDATA_ID ,
+            DATA_VERSION ,
+            GMT_CREATE ,
+            GMT_MODIFY ,
+            HOSPITAL_ID ,
+            TBDM ,
+            FBRQ ,
+            FBLX ,
+            PZWH ,
+            BWM ,
+            YPTYM ,
+            YWM ,
+            JX ,
+            GG ,
+            SCQY ,
+            SPM ,
+            BZDW ,
+            BZSL ,
+            BZCZ ,
+            BZFS ,
+            GGBZWZBS ,
+            YPSX ,
+            CKFL ,
+            BZXX ,
+            QYRQ ,
+            YXRQ ,
+            BGZD ,
+            PY_CODE,
+            WB_CODE
+        ) VALUES (
+            #{ypjcxxdataId} ,
+            #{dataVersion} ,
+            #{gmtCreate} ,
+            #{gmtCreate} ,
+            #{hospitalId} ,
+            #{tbdm} ,
+            #{fbrq} ,
+            #{fblx} ,
+            #{pzwh} ,
+            #{bwm} ,
+            #{yptym} ,
+            #{ywm} ,
+            #{jx} ,
+            #{gg} ,
+            #{scqy} ,
+            #{spm} ,
+            #{bzdw} ,
+            #{bzsl} ,
+            #{bzcz} ,
+            #{bzfs} ,
+            #{ggbzwzbs} ,
+            #{ypsx} ,
+            #{ckfl} ,
+            #{bzxx} ,
+            #{qyrq} ,
+            #{yxrq} ,
+            #{bgzd} ,
+            #{pyCode},
+            #{wbCode}
+        )
+    </insert>
+    <insert id="insertList" parameterType="com.buit.his.medinsuinterface.sh.dataitem.model.ShybYpjcxx">
+        INSERT INTO SHYB_YPJCXX (
+            YPJCXXDATA_ID ,
+            DATA_VERSION ,
+            GMT_CREATE ,
+            GMT_MODIFY ,
+            HOSPITAL_ID ,
+            TBDM ,
+            FBRQ ,
+            FBLX ,
+            PZWH ,
+            BWM ,
+            YPTYM ,
+            YWM ,
+            JX ,
+            GG ,
+            SCQY ,
+            SPM ,
+            BZDW ,
+            BZSL ,
+            BZCZ ,
+            BZFS ,
+            GGBZWZBS ,
+            YPSX ,
+            CKFL ,
+            BZXX ,
+            QYRQ ,
+            YXRQ ,
+            BGZD ,
+            PY_CODE,
+            WB_CODE
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+                 (
+            #{item.ypjcxxdataId} ,
+            #{item.dataVersion} ,
+            #{item.gmtCreate} ,
+            #{item.gmtCreate} ,
+            #{item.hospitalId} ,
+            #{item.tbdm} ,
+            #{item.fbrq} ,
+            #{item.fblx} ,
+            #{item.pzwh} ,
+            #{item.bwm} ,
+            #{item.yptym} ,
+            #{item.ywm} ,
+            #{item.jx} ,
+            #{item.gg} ,
+            #{item.scqy} ,
+            #{item.spm} ,
+            #{item.bzdw} ,
+            #{item.bzsl} ,
+            #{item.bzcz} ,
+            #{item.bzfs} ,
+            #{item.ggbzwzbs} ,
+            #{item.ypsx} ,
+            #{item.ckfl} ,
+            #{item.bzxx} ,
+            #{item.qyrq} ,
+            #{item.yxrq} ,
+            #{item.bgzd} ,
+            #{item.pyCode},
+            #{item.wbCode}
+        )
+        </foreach>
+    </insert>
+    <update id="update" >
+        UPDATE SHYB_YPJCXX SET
+            DATA_VERSION = #{dataVersion} ,
+            GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} ,
+            HOSPITAL_ID = #{hospitalId} ,
+            TBDM = #{tbdm} ,
+            FBRQ = #{fbrq} ,
+            FBLX = #{fblx} ,
+            PZWH = #{pzwh} ,
+            BWM = #{bwm} ,
+            YPTYM = #{yptym} ,
+            PY_CODE = #{pyCode},
+            WB_CODE = #{wbCode},
+            YWM = #{ywm} ,
+            JX = #{jx} ,
+            GG = #{gg} ,
+            SCQY = #{scqy} ,
+            SPM = #{spm} ,
+            BZDW = #{bzdw} ,
+            BZSL = #{bzsl} ,
+            BZCZ = #{bzcz} ,
+            BZFS = #{bzfs} ,
+            GGBZWZBS = #{ggbzwzbs} ,
+            YPSX = #{ypsx} ,
+            CKFL = #{ckfl} ,
+            BZXX = #{bzxx} ,
+            QYRQ = #{qyrq} ,
+            YXRQ = #{yxrq} ,
+            BGZD = #{bgzd} 
+        WHERE 
+            YPJCXXDATA_ID = #{ypjcxxdataId} 
+                       
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM SHYB_YPJCXX WHERE
+        YPJCXXDATA_ID = #{ypjcxxdataId} 
+    </delete>
+    
+    <delete id="removeByEntity">
+        DELETE FROM SHYB_YPJCXX <include refid="where"/>  
+    </delete>
+    
+    <select id="getById" resultType="ShybYpjcxx">
+        SELECT <include refid="columns" />
+            FROM SHYB_YPJCXX 
+            WHERE 
+        YPJCXXDATA_ID = #{ypjcxxdataId} 
+    </select>
+    
+    <sql id="where">
+        <where>                          
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ypjcxxdataId)"> -->
+<!--                     AND YPJCXXDATA_ID = #{ypjcxxdataId} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataVersion)"> -->
+<!--                     AND DATA_VERSION = #{dataVersion} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtCreate)"> -->
+<!--                     AND GMT_CREATE = #{gmtCreate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtModify)"> -->
+<!--                     AND GMT_MODIFY = #{gmtModify} -->
+<!--                </if> -->
+               <if test="@sqlt.Ognl@isNotEmpty(hospitalId)">
+                    AND HOSPITAL_ID = #{hospitalId}
+               </if>
+<!--                <if test="@sqlt.Ognl@isNotEmpty(tbdm)"> -->
+<!--                     AND TBDM = #{tbdm} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(fbrq)"> -->
+<!--                     AND FBRQ = #{fbrq} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(fblx)"> -->
+<!--                     AND FBLX = #{fblx} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(pzwh)"> -->
+<!--                     AND PZWH = #{pzwh} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(bwm)"> -->
+<!--                     AND BWM = #{bwm} -->
+<!--                </if> -->
+               <if test="@sqlt.Ognl@isNotEmpty(yptym)">
+                    AND (	YPTYM LIKE CONCAT(CONCAT('%',UPPER(#{yptym})),'%') 
+               				or SPM LIKE CONCAT(CONCAT('%',UPPER(#{yptym})),'%') 
+               				or PY_CODE LIKE CONCAT(CONCAT('%',UPPER(#{yptym})),'%')
+               				or WB_CODE LIKE CONCAT(CONCAT('%',UPPER(#{yptym})),'%')
+                            or TBDM LIKE CONCAT(CONCAT('%',UPPER(#{yptym})),'%')
+               			)
+               </if>
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ywm)"> -->
+<!--                     AND YWM = #{ywm} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(jx)"> -->
+<!--                     AND JX = #{jx} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gg)"> -->
+<!--                     AND GG = #{gg} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(scqy)"> -->
+<!--                     AND SCQY = #{scqy} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(spm)"> -->
+<!--                     AND SPM = #{spm} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(bzdw)"> -->
+<!--                     AND BZDW = #{bzdw} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(bzsl)"> -->
+<!--                     AND BZSL = #{bzsl} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(bzcz)"> -->
+<!--                     AND BZCZ = #{bzcz} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(bzfs)"> -->
+<!--                     AND BZFS = #{bzfs} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ggbzwzbs)"> -->
+<!--                     AND GGBZWZBS = #{ggbzwzbs} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ypsx)"> -->
+<!--                     AND YPSX = #{ypsx} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ckfl)"> -->
+<!--                     AND CKFL = #{ckfl} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(bzxx)"> -->
+<!--                     AND BZXX = #{bzxx} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(qyrq)"> -->
+<!--                     AND QYRQ = #{qyrq} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(yxrq)"> -->
+<!--                     AND YXRQ = #{yxrq} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(bgzd)"> -->
+<!--                     AND BGZD = #{bgzd} -->
+<!--                </if> -->
+        </where>
+    </sql>
+        
+    <select id="findByEntityCount" resultType="long">
+        SELECT count(*) FROM SHYB_YPJCXX 
+        <include refid="where"/>    
+    </select>
+    
+    <select id="findByEntity" resultType="ShybYpjcxx">
+        SELECT <include refid="columns" />
+        FROM SHYB_YPJCXX 
+        <include refid="where"/>
+        
+        <if test="@sqlt.Ognl@orderIsNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+    <!--     业务sql      -->
+    
+    <select id="shurufa" resultType="ShybYpjcxx">
+    	SELECT 	TBDM,YPTYM,GGBZWZBS,BZDW,SPM,SCQY,PY_CODE AS pyCode
+		FROM shyb_ypjcxx
+		WHERE TBDM LIKE CONCAT(CONCAT('%', UPPER(#{value})), '%')
+		ORDER BY TBDM DESC
+    </select>
+    
+    <select id="getBytBdm" resultType="long">
+        SELECT count(*)
+            FROM SHYB_YPJCXX 
+            WHERE TBDM = #{tbdm}
+        <if test="@sqlt.Ognl@isNotEmpty(ypjcxxdataId)">
+             AND YPJCXXDATA_ID != #{ypjcxxdataId}
+        </if>
+    </select>
+    
+    <update id="updateByTbdm" >  
+        UPDATE SHYB_YPJCXX SET
+            DATA_VERSION = #{dataVersion},
+            GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} ,
+            HOSPITAL_ID = #{hospitalId} ,
+            TBDM = #{tbdm} ,
+            FBRQ = #{fbrq} ,
+            FBLX = #{fblx} ,
+            PZWH = #{pzwh} ,
+            BWM = #{bwm} ,
+            YPTYM = #{yptym} ,
+            YWM = #{ywm} ,
+            JX = #{jx} ,
+            GG = #{gg} ,
+            SCQY = #{scqy} ,
+            SPM = #{spm} ,
+            BZDW = #{bzdw} ,
+            BZSL = #{bzsl} ,
+            BZCZ = #{bzcz} ,
+            BZFS = #{bzfs} ,
+            GGBZWZBS = #{ggbzwzbs} ,
+            YPSX = #{ypsx} ,
+            CKFL = #{ckfl} ,
+            BZXX = #{bzxx} ,
+            QYRQ = #{qyrq} ,
+            YXRQ = #{yxrq} ,
+            BGZD = #{bgzd} 
+        WHERE 
+            TBDM = #{tbdm} 
+    </update>
+    <select id="ybypSelector" resultType="MedicalInsuranceDrugResp">
+        select tbdm as ybbm,pzwh as pzwh,yptym as ypmc,gg as ypgg,bzdw as ypdw,spm as spmc,qyrq ,yxrq as jsrq,0 as qybz
+        from shyb_ypjcxx
+        <where>
+            1=1
+            <if test="@sqlt.Ognl@isNotEmpty(TBDM)">
+                AND TBDM = #{TBDM}
+            </if>
+            <if test="@sqlt.Ognl@isNotEmpty(PY_CODE)">
+                AND PY_CODE = #{PY_CODE}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryYpbzxx" resultType="com.buit.his.gpo.dto.YpbzxxDto">
+        select a.ybbm as tbdm,b.ypdw as jjdw,b.bfdw ,b.zxbz as jjbz,b.bfbz,JHJG as cgdj,round(jhjg * b.bfbz/b.zxbz,4) as bfdj,d.cdmc
+        from drugs_ybyp a
+        inner join drugs_typk b on a.ypxh=b.ypxh
+        inner join drugs_ypcd c on a.ypxh=c.ypxh and a.ypcd=c.ypcd
+        inner join drugs_cddz d on a.ypcd=d.ypcd
+        where a.qybz=1 and jgid=#{jgid} and a.ybbm in (<foreach collection="list" item="b" separator=",">#{b}</foreach>)
+    </select>
+</mapper>
+
+

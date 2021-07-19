@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO webservice 记录 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoWsjlDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,LX as lx,DM as dm,MC as mc,CS as cs,FH as fh,HS as hs,C_TIME as ctime,E_TIME as etime,C_USER as cuser,C_UNAME as cuname
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_WSJL (
+            XH ,
+            JGID ,
+            LX ,
+            DM ,
+            MC ,
+            CS ,
+            FH ,
+            HS ,
+            C_TIME ,
+            E_TIME ,
+            C_USER ,
+            C_UNAME 
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{lx} ,
+            #{dm} ,
+            #{mc} ,
+            #{cs} ,
+            #{fh} ,
+            #{hs} ,
+            #{ctime} ,
+            #{etime} ,
+            #{cuser} ,
+            #{cuname} 
+        )
+    </insert>
+    
+    <update id="update" ><!--  
+        UPDATE GPO_WSJL SET
+            JGID = #{jgid} ,
+            LX = #{lx} ,
+            DM = #{dm} ,
+            MC = #{mc} ,
+            CS = #{cs} ,
+            FH = #{fh} ,
+            HS = #{hs} ,
+            C_TIME = #{ctime} ,
+            E_TIME = #{etime} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} 
+        WHERE 
+            XH = #{xh} 
+            -->            
+    </update>
+
+    <delete id="deleteById"></delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoWsjl">
+        SELECT <include refid="columns" />
+            FROM GPO_WSJL 
+            WHERE 
+        XH = #{xh} 
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoWsjl"></select>
+    <!--     业务sql      -->
+</mapper>
+

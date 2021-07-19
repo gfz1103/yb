@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO发票 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoFpDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,GPO_JGID as gpoJgid,FPID as fpid,FPH as fph,YQBM as yqbm,YQMC as yqmc,FPRQ as fprq,FPHSZJE as fphszje,YYBM as yybm,PSDBM as psdbm,DLCGBZ as dlcgbz,FPBZ as fpbz,FPZT as fpzt,YSZT as yszt,YSSJ as yssj,YSRDM as ysrdm,DZZT as dzzt,DZSJ as dzsj,DZRDM as dzrdm,RKZT as rkzt,RKSJ as rksj,RKDH as rkdh,RKRDM as rkrdm,ZFZT as zfzt,ZFSJ as zfsj,ZFRDM as zfrdm,ZT as zt,SCSJ as scsj,SCRDM as scrdm,C_TIME as ctime,C_USER as cuser,C_UNAME as cuname,YKLX as yklx,YKSB as yksb
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_FP (
+            XH ,
+            JGID ,
+            GPO_JGID ,
+            FPID ,
+            FPH ,
+            YQBM ,
+            YQMC ,
+            FPRQ ,
+            FPHSZJE ,
+            YYBM ,
+            PSDBM ,
+            DLCGBZ ,
+            FPBZ ,
+            FPZT ,
+            YSZT ,
+            YSSJ ,
+            YSRDM ,
+            DZZT ,
+            DZSJ ,
+            DZRDM ,
+            RKZT ,
+            RKSJ ,
+            RKDH ,
+            RKRDM ,
+            ZFZT ,
+            ZFSJ ,
+            ZFRDM ,
+            ZT ,
+            SCSJ ,
+            SCRDM ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME ,
+            YKLX ,
+            YKSB 
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{gpoJgid} ,
+            #{fpid} ,
+            #{fph} ,
+            #{yqbm} ,
+            #{yqmc} ,
+            #{fprq} ,
+            #{fphszje} ,
+            #{yybm} ,
+            #{psdbm} ,
+            #{dlcgbz} ,
+            #{fpbz} ,
+            #{fpzt} ,
+            #{yszt} ,
+            #{yssj} ,
+            #{ysrdm} ,
+            #{dzzt} ,
+            #{dzsj} ,
+            #{dzrdm} ,
+            #{rkzt} ,
+            #{rksj} ,
+            #{rkdh} ,
+            #{rkrdm} ,
+            #{zfzt} ,
+            #{zfsj} ,
+            #{zfrdm} ,
+            #{zt} ,
+            #{scsj} ,
+            #{scrdm} ,
+            #{ctime} ,
+            #{cuser} ,
+            #{cuname} ,
+            #{yklx} ,
+            #{yksb} 
+        )
+    </insert>
+    
+    <update id="update" >
+        UPDATE GPO_FP SET
+            JGID = #{jgid} ,
+            GPO_JGID = #{gpoJgid} ,
+            FPID = #{fpid} ,
+            FPH = #{fph} ,
+            YQBM = #{yqbm} ,
+            YQMC = #{yqmc} ,
+            FPRQ = #{fprq} ,
+            FPHSZJE = #{fphszje} ,
+            YYBM = #{yybm} ,
+            PSDBM = #{psdbm} ,
+            DLCGBZ = #{dlcgbz} ,
+            FPBZ = #{fpbz} ,
+            FPZT = #{fpzt} ,
+            YSZT = #{yszt} ,
+            YSSJ = #{yssj} ,
+            YSRDM = #{ysrdm} ,
+            DZZT = #{dzzt} ,
+            DZSJ = #{dzsj} ,
+            DZRDM = #{dzrdm} ,
+            RKZT = #{rkzt} ,
+            RKSJ = #{rksj} ,
+            RKDH = #{rkdh} ,
+            RKRDM = #{rkrdm} ,
+            ZFZT = #{zfzt} ,
+            ZFSJ = #{zfsj} ,
+            ZFRDM = #{zfrdm} ,
+            ZT = #{zt} ,
+            SCSJ = #{scsj} ,
+            SCRDM = #{scrdm} ,
+            C_TIME = #{ctime} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} ,
+            YKLX = #{yklx} ,
+            YKSB = #{yksb} 
+        WHERE 
+            XH = #{xh} 
+
+    </update>
+
+    <delete id="deleteById"></delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoFp">
+        SELECT <include refid="columns" />
+            FROM GPO_FP 
+            WHERE 
+        XH = #{xh} 
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoFp"></select>
+    <!--     业务sql      -->
+    <select id="list" resultType="com.buit.his.gpo.service.result.Fpsj">
+        SELECT <include refid="columns" />
+        FROM GPO_FP
+        <where>
+            ZT = 1
+            AND JGID = #{jgid}
+            AND YKSB = #{yksb}
+            <if test="yqbm != null">
+                AND YQBM = #{yqbm}
+            </if>
+            <if test="ksrq != null">
+                AND FPRQ >= #{ksrq}
+            </if>
+            <if test="jsrq != null">
+                AND FPRQ &lt;= #{jsrq}
+            </if>
+            <if test="dlcgbz != null">
+                AND DLCGBZ = #{dlcgbz}
+            </if>
+            <if test="yszt != null">
+                AND YSZT = #{yszt}
+            </if>
+            <if test="dzzt != null">
+                AND DZZT = #{dzzt}
+            </if>
+            <if test="zfuzt != null">
+                AND ZFZT = #{zfuzt}
+            </if>
+            <if test="rkzt != null">
+                AND RKZT = #{rkzt}
+            </if>
+        </where>
+        ORDER BY FPRQ DESC, FPH DESC
+    </select>
+    <select id="selectByFph" resultType="com.buit.his.gpo.model.GpoFp">
+        SELECT <include refid="columns" />
+        FROM GPO_FP
+        WHERE FPH = #{fph}
+    </select>
+    <select id="selectListInXh" resultType="com.buit.his.gpo.model.GpoFp">
+        SELECT <include refid="columns" />
+        FROM GPO_FP
+        WHERE XH IN
+        <foreach collection="fpxhs" item="xh" open="(" separator="," close=")">
+            #{xh}
+        </foreach>
+        ORDER BY XH ASC
+    </select>
+    <update id="dz">
+        UPDATE GPO_FP SET
+            DZZT = 1,
+            DZSJ = #{dzsj} ,
+            DZRDM = #{dzrdm}
+        WHERE
+            XH = #{xh}
+    </update>
+    <update id="zf">
+        UPDATE GPO_FP SET
+            ZFZT = 1 ,
+            ZFSJ = #{zfsj} ,
+            ZFRDM = #{zfrdm}
+        WHERE
+            FPH = #{fph}
+    </update>
+    <select id="selectYksb" resultType="java.lang.Integer">
+        select
+        c.yksb
+        from
+        gpo_fpmx a
+        left join gpo_ddmx b on a.GLMXBH=b.DDMXBH
+        left join gpo_dd c on b.DDXH=c.xh
+        where a.GLMXBH=#{glmxbh}
+    </select>
+</mapper>
+

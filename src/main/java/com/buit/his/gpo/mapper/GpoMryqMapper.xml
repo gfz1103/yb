@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO订单 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoMryqDao">
+
+    <insert id="save">
+        replace into gpo_mryq(tbdm,yqbm,yqmc)
+        values
+        <foreach collection="list" item="y" separator=",">(#{y.tbdm},#{y.yqbm},#{y.yqmc})</foreach>
+    </insert>
+</mapper>
+

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO药品当前库存量数据传报 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoYpkccbDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,KCCBSJ as kccbsj,JLS as jls,CLJG as cljg,CLQKMS as clqkms,C_TIME as ctime,C_USER as cuser,C_UNAME as cuname
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_YPKCCB (
+            XH ,
+            JGID ,
+            KCCBSJ ,
+            JLS ,
+            CLJG ,
+            CLQKMS ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME 
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{kccbsj} ,
+            #{jls} ,
+            #{cljg} ,
+            #{clqkms} ,
+            #{ctime} ,
+            #{cuser} ,
+            #{cuname} 
+        )
+    </insert>
+    
+    <update id="update" ><!--  
+        UPDATE GPO_YPKCCB SET
+            JGID = #{jgid} ,
+            KCCBSJ = #{kccbsj} ,
+            JLS = #{jls} ,
+            CLJG = #{cljg} ,
+            CLQKMS = #{clqkms} ,
+            C_TIME = #{ctime} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} 
+        WHERE 
+            XH = #{xh} 
+            -->            
+    </update>
+
+    <delete id="deleteById"></delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoYpkccb">
+        SELECT <include refid="columns" />
+            FROM GPO_YPKCCB 
+            WHERE 
+        XH = #{xh} 
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoYpkccb"></select>
+    <select id="kccx" resultType="com.buit.his.gpo.controller.response.YpkcshQueryResponse">
+        SELECT
+            kc.YPXH AS yyspbm,
+            yp.TBDM AS zxspbm,
+            yp.YPTYM AS spmc,
+            yp.YPSX AS yplx,
+            yp.GG,
+            sum(kc.KCSL) AS ypkcl,
+            yp.BZDW AS kcdw
+        FROM drugs_kcmx kc
+        LEFT JOIN drugs_ybyp ybyp ON kc.YPXH = ybyp.ypxh AND kc.YPCD = ybyp.ypcd
+        LEFT JOIN shyb_ypjcxx yp ON yp.TBDM = ybyp.ybbm
+        WHERE kc.jgid = #{jgid} AND ybyp.qybz = 1
+        GROUP BY kc.YPXH, yp.TBDM, yp.YPTYM, yp.YPSX, yp.GG, yp.BZDW
+        ORDER BY kc.YPXH
+    </select>
+    <!--     业务sql      -->
+</mapper>
+

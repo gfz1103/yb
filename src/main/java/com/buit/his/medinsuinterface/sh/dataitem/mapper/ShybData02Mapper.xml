@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 医保数据内容表 -->
+<mapper namespace="com.buit.his.medinsuinterface.sh.dataitem.dao.ShybData02Dao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        YBDATAVALUE_ID as ybdatavalueId,DATA_VERSION as dataVersion,GMT_CREATE as gmtCreate,GMT_MODIFY as gmtModify,HOSPITAL_ID as hospitalId,YBDATA_ID as ybdataId,SERIAL_NUMBER as serialNumber,DATA_CODE as dataCode,DATA_NAME as dataName,DATA_TYPE as dataType,DATA_NUM as dataNum,PARENT_DATAVALUE_ID as parentDatavalueId,PY_CODE as pyCode,WB_CODE as wbCode,STOP_FLAG as stopFlag
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO shyb_data02 (
+            YBDATAVALUE_ID ,
+            DATA_VERSION ,
+            GMT_CREATE ,
+            GMT_MODIFY ,
+            HOSPITAL_ID ,
+            YBDATA_ID ,
+            SERIAL_NUMBER ,
+            DATA_CODE ,
+            DATA_NAME ,
+            DATA_TYPE ,
+            DATA_NUM ,
+            PARENT_DATAVALUE_ID ,
+            PY_CODE ,
+            WB_CODE ,
+            STOP_FLAG 
+        ) VALUES (
+            #{ybdatavalueId} ,
+            #{dataVersion} ,
+            #{gmtCreate} ,
+            #{gmtCreate} ,
+            #{hospitalId} ,
+            #{ybdataId} ,
+            #{serialNumber} ,
+            #{dataCode} ,
+            #{dataName} ,
+            #{dataType} ,
+            #{dataNum} ,
+            #{parentDatavalueId} ,
+            #{pyCode} ,
+            #{wbCode} ,
+            #{stopFlag} 
+        )
+    </insert>
+    
+    <update id="update" > 
+        UPDATE shyb_data02 SET
+            DATA_VERSION = #{dataVersion} ,
+            GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} ,
+            YBDATA_ID = #{ybdataId} ,
+            SERIAL_NUMBER = #{serialNumber} ,
+            DATA_CODE = #{dataCode} ,
+            DATA_NAME = #{dataName} ,
+            DATA_TYPE = #{dataType} ,
+            DATA_NUM = #{dataNum} ,
+            PARENT_DATAVALUE_ID = #{parentDatavalueId} ,
+            PY_CODE = #{pyCode} ,
+            WB_CODE = #{wbCode}
+        WHERE 
+            YBDATAVALUE_ID = #{ybdatavalueId} 
+                      
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM shyb_data02 WHERE
+        YBDATAVALUE_ID = #{ybdatavalueId} 
+    </delete>
+    
+    <delete id="removeByEntity">
+        DELETE FROM shyb_data02 <include refid="where"/>  
+    </delete>
+    
+    <select id="getById" resultType="ShybData02">
+        SELECT <include refid="columns" />
+            FROM shyb_data02 
+            WHERE 
+        YBDATAVALUE_ID = #{ybdatavalueId} 
+    </select>
+    
+    <sql id="where">
+        <where>                          
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ybdatavalueId)"> -->
+<!--                     AND YBDATAVALUE_ID = #{ybdatavalueId} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataVersion)"> -->
+<!--                     AND DATA_VERSION = #{dataVersion} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtCreate)"> -->
+<!--                     AND GMT_CREATE = #{gmtCreate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtModify)"> -->
+<!--                     AND GMT_MODIFY = #{gmtModify} -->
+<!--                </if> -->
+               <if test="@sqlt.Ognl@isNotEmpty(hospitalId)">
+                    AND HOSPITAL_ID = #{hospitalId}
+               </if>
+               <if test="@sqlt.Ognl@isNotEmpty(ybdataId)">
+                    AND YBDATA_ID = #{ybdataId}
+               </if>
+<!--                <if test="@sqlt.Ognl@isNotEmpty(serialNumber)"> -->
+<!--                     AND SERIAL_NUMBER = #{serialNumber} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataCode)"> -->
+<!--                     AND DATA_CODE = #{dataCode} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataName)"> -->
+<!--                     AND DATA_NAME = #{dataName} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataType)"> -->
+<!--                     AND DATA_TYPE = #{dataType} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataNum)"> -->
+<!--                     AND DATA_NUM = #{dataNum} -->
+<!--                </if> -->
+               <if test="@sqlt.Ognl@isNotEmpty(parentDatavalueId)">
+                    AND PARENT_DATAVALUE_ID = #{parentDatavalueId}
+               </if>
+<!--                <if test="@sqlt.Ognl@isNotEmpty(pyCode)"> -->
+<!--                     AND PY_CODE = #{pyCode} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(wbCode)"> -->
+<!--                     AND WB_CODE = #{wbCode} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(stopFlag)"> -->
+<!--                     AND STOP_FLAG = #{stopFlag} -->
+<!--                </if> -->
+				<if test="@sqlt.Ognl@isNotEmpty(dataName)">
+                    
+                    AND (	DATA_NAME LIKE CONCAT(CONCAT('%',UPPER(#{dataName})),'%') 
+               				or PY_CODE LIKE CONCAT(CONCAT('%',UPPER(#{dataName})),'%') 
+               				or WB_CODE LIKE CONCAT(CONCAT('%',UPPER(#{dataName})),'%') 
+               			)
+               </if>
+        </where>
+    </sql>
+        
+    <select id="findByEntityCount" resultType="long">
+        SELECT count(*) FROM shyb_data02 
+        <include refid="where"/>    
+    </select>
+    <select id="checkCode" resultType="long">
+        SELECT count(*) FROM shyb_data02
+        where YBDATA_ID = #{ybdataId}
+        AND DATA_CODE = #{dataCode}
+        <if test="@sqlt.Ognl@isNotEmpty(ybdatavalueId)">
+             AND YBDATAVALUE_ID != #{ybdatavalueId}
+        </if>
+    </select>
+
+    <select id="findByEntity" resultType="ShybData02">
+        SELECT <include refid="columns" />
+        FROM shyb_data02 
+        <include refid="where"/>
+        
+        <if test="@sqlt.Ognl@orderIsNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+    <!--     业务sql      -->
+    
+    <update id="editStopFlag" > 
+        UPDATE shyb_data02 SET
+            STOP_FLAG = #{stopFlag} 
+        WHERE 
+            YBDATAVALUE_ID = #{ybdatavalueId} 
+    </update>
+
+    <select id="queryList" resultType="ShybData02Resp">
+        SELECT <include refid="columns" />
+        FROM shyb_data02
+        where YBDATA_ID = '2'
+    </select>
+
+    <select id="queryXsList" resultType="ShybData02Resp">
+        SELECT <include refid="columns" />
+        FROM shyb_data02
+        where YBDATA_ID = '33'
+    </select>
+</mapper>
+

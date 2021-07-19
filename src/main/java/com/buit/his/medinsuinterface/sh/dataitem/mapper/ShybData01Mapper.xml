@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 医保数据主表 -->
+<mapper namespace="com.buit.his.medinsuinterface.sh.dataitem.dao.ShybData01Dao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        YBDATA_ID as ybdataId,DATA_VERSION as dataVersion,GMT_CREATE as gmtCreate,GMT_MODIFY as gmtModify,HOSPITAL_ID as hospitalId,YB_DATA_CODE as ybDataCode,YB_DATA_NAME as ybDataName,PY_CODE as pyCode,WB_CODE as wbCode
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO SHYB_DATA01 (
+            YBDATA_ID ,
+            DATA_VERSION ,
+            GMT_CREATE ,
+            GMT_MODIFY ,
+            HOSPITAL_ID ,
+            YB_DATA_CODE ,
+            YB_DATA_NAME ,
+            PY_CODE ,
+            WB_CODE 
+        ) VALUES (
+            #{ybdataId} ,
+            #{dataVersion} ,
+            #{gmtCreate} ,
+            #{gmtModify} ,
+            #{hospitalId} ,
+            #{ybDataCode} ,
+            #{ybDataName} ,
+            #{pyCode} ,
+            #{wbCode} 
+        )
+    </insert>
+    
+    <update id="update" ><!--  
+        UPDATE SHYB_DATA01 SET
+            DATA_VERSION = #{dataVersion} ,
+            GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} ,
+            HOSPITAL_ID = #{hospitalId} ,
+            YB_DATA_CODE = #{ybDataCode} ,
+            YB_DATA_NAME = #{ybDataName} ,
+            PY_CODE = #{pyCode} ,
+            WB_CODE = #{wbCode} 
+        WHERE 
+            YBDATA_ID = #{ybdataId} 
+            -->            
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM SHYB_DATA01 WHERE
+        YBDATA_ID = #{ybdataId} 
+    </delete>
+    
+    <delete id="removeByEntity">
+        DELETE FROM SHYB_DATA01 <include refid="where"/>  
+    </delete>
+    
+    <select id="getById" resultType="ShybData01">
+        SELECT <include refid="columns" />
+            FROM SHYB_DATA01 
+            WHERE 
+        YBDATA_ID = #{ybdataId} 
+    </select>
+    
+    <sql id="where">
+        <where>                          
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ybdataId)"> -->
+<!--                     AND YBDATA_ID = #{ybdataId} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataVersion)"> -->
+<!--                     AND DATA_VERSION = #{dataVersion} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtCreate)"> -->
+<!--                     AND GMT_CREATE = #{gmtCreate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtModify)"> -->
+<!--                     AND GMT_MODIFY = #{gmtModify} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(hospitalId)"> -->
+<!--                     AND HOSPITAL_ID = #{hospitalId} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ybDataCode)"> -->
+<!--                     AND YB_DATA_CODE = #{ybDataCode} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ybDataName)"> -->
+<!--                     AND YB_DATA_NAME = #{ybDataName} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(pyCode)"> -->
+<!--                     AND PY_CODE = #{pyCode} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(wbCode)"> -->
+<!--                     AND WB_CODE = #{wbCode} -->
+<!--                </if> -->
+        </where>
+    </sql>
+        
+    <select id="findByEntityCount" resultType="long">
+        SELECT count(*) FROM SHYB_DATA01 
+        <include refid="where"/>    
+    </select>
+    
+    <select id="findByEntity" resultType="ShybData01">
+        SELECT <include refid="columns" />
+        FROM SHYB_DATA01 
+        <include refid="where"/>
+        
+        <if test="@sqlt.Ognl@orderIsNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+    <!--     业务sql      -->
+</mapper>
+

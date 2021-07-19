@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO配送点信息 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoPsdxxDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,PSDBM as psdbm,PSDMC as psdmc,PSDZ as psdz,LXRXM as lxrxm,LXDH as lxdh,YZBM as yzbm,BZXX as bzxx,ZT as zt,SCSJ as scsj,SCRDM as scrdm,CBZT as cbzt,CBSJ as cbsj,CBRDM as cbrdm,ZFZT as zfzt,ZFSJ as zfsj,ZFRDM as zfrdm,C_USER as cuser,C_UNAME as cuname,C_TIME as ctime
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_PSDXX (
+            XH ,
+            JGID ,
+            PSDBM ,
+            PSDMC ,
+            PSDZ ,
+            LXRXM ,
+            LXDH ,
+            YZBM ,
+            BZXX ,
+            ZT ,
+            SCSJ ,
+            SCRDM ,
+            CBZT ,
+            CBSJ ,
+            CBRDM ,
+            ZFZT ,
+            ZFSJ ,
+            ZFRDM ,
+            C_USER ,
+            C_UNAME ,
+            C_TIME 
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{psdbm} ,
+            #{psdmc} ,
+            #{psdz} ,
+            #{lxrxm} ,
+            #{lxdh} ,
+            #{yzbm} ,
+            #{bzxx} ,
+            #{zt} ,
+            #{scsj} ,
+            #{scrdm} ,
+            #{cbzt} ,
+            #{cbsj} ,
+            #{cbrdm} ,
+            #{zfzt} ,
+            #{zfsj} ,
+            #{zfrdm} ,
+            #{cuser} ,
+            #{cuname} ,
+            #{ctime} 
+        )
+    </insert>
+    
+    <update id="update" >
+        UPDATE GPO_PSDXX SET
+            JGID = #{jgid} ,
+            PSDBM = #{psdbm} ,
+            PSDMC = #{psdmc} ,
+            PSDZ = #{psdz} ,
+            LXRXM = #{lxrxm} ,
+            LXDH = #{lxdh} ,
+            YZBM = #{yzbm} ,
+            BZXX = #{bzxx} ,
+            ZT = #{zt} ,
+            SCSJ = #{scsj} ,
+            SCRDM = #{scrdm} ,
+            CBZT = #{cbzt} ,
+            CBSJ = #{cbsj} ,
+            CBRDM = #{cbrdm} ,
+            ZFZT = #{zfzt} ,
+            ZFSJ = #{zfsj} ,
+            ZFRDM = #{zfrdm} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} ,
+            C_TIME = #{ctime} 
+        WHERE 
+            XH = #{xh} 
+    </update>
+
+    <delete id="deleteById"></delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoPsdxx">
+        SELECT <include refid="columns" />
+            FROM GPO_PSDXX 
+            WHERE 
+        XH = #{xh} 
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoPsdxx"></select>
+    <!--     业务sql      -->
+    <select id="existBm" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+        FROM GPO_PSDXX
+        WHERE ZT = 1 AND JGID = #{jgid} AND PSDBM = #{psdbm}
+        <if test="null != xh">
+            AND XH != #{xh}
+        </if>
+    </select>
+    <select id="existMc" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+        FROM GPO_PSDXX
+        WHERE ZT = 1 AND JGID = #{jgid} AND PSDMC = #{psdmc}
+        <if test="null != xh">
+            AND XH != #{xh}
+        </if>
+    </select>
+    <select id="page" resultType="com.buit.his.gpo.model.GpoPsdxx">
+        SELECT <include refid="columns" />
+        FROM GPO_PSDXX
+        WHERE ZT = 1
+        ORDER BY PSDBM ASC
+    </select>
+    <select id="existUpload" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+        FROM GPO_PSDXX
+        WHERE JGID = #{jgid}
+            AND ZT = 1
+            AND CBZT = 1
+            AND ZFZT = 1
+    </select>
+    <select id="select" resultType="com.buit.his.gpo.model.GpoPsdxx">
+        SELECT <include refid="columns" />
+        FROM GPO_PSDXX
+        WHERE JGID = #{jgid}
+            AND ZT = 1
+            AND CBZT = 1
+            AND ZFZT = 1
+    </select>
+</mapper>
+

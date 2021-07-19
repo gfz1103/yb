@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 门诊_门诊类别 -->
+<mapper namespace="com.buit.his.shyb.source.dao.ShybSi51Dao">
+
+    <select id="countJs" resultType="long">
+        SELECT count(1) FROM SHYB_SI52
+          where
+            ZFPB = 0 AND ZYHM=#{zyh} AND JSCS = #{jscs}
+    </select>
+
+    <select id="countisJs" resultType="long">
+        SELECT count(1) FROM
+            SHYB_SI52 a
+          where
+            replace(a.zysffssj,'/','') >= replace(replace(replace(DATE_ADD(sysdate(),INTERVAL -3 DAY),'-',''),':',''),' ','')
+            and a.totalexpense-2000 &lt;= #{totalexpense}  and
+            a.totalexpense+2000 >=  #{totalexpense} and
+            a.zyhm = #{zyh} and a.zfpb = '0'
+    </select>
+
+    <!--  新增-->
+    <insert id="insertYbsi51">
+        INSERT INTO SHYB_SI51 (
+          ZYSFFSSJ  ,
+          ZYSFJSSJ  ,
+          JSSQXH  ,
+          JZDYH  ,
+          CARDTYPE  ,
+          CARDID  ,
+          KNSJ  ,
+          PERSONNAME  ,
+          ACCOUNTATTR    ,
+          TOTALEXPENSE          ,
+          QFDZHZFS        ,
+          TCDZHZFS        ,
+          FJDZHZFS        ,
+          QFDXJZFS        ,
+          TCDXJZFS        ,
+          FJDXJZFS        ,
+          TCZFS           ,
+          FJZFS           ,
+          CURACCOUNTAMT          ,
+          HISACCOUNTAMT          ,
+          YBJSFWFYZE      ,
+          FYBJSFWFYZE     ,
+          JGID            ,
+          ZYJSKSRQ  ,
+          ZYJSJSRQ  ,
+          BCJSZYTS
+        ) VALUES (
+         #{ZYSFFSSJ}  ,
+          #{ZYSFJSSJ}  ,
+          #{JSSQXH}  ,
+          #{JZDYH}  ,
+          #{CARDTYPE}  ,
+          #{CARDID}  ,
+          #{KNSJ}  ,
+          #{PERSONNAME}  ,
+          #{ACCOUNTATTR}    ,
+          #{TOTALEXPENSE}          ,
+          #{QFDZHZFS}        ,
+          #{TCDZHZFS}        ,
+          #{FJDZHZFS}        ,
+          #{QFDXJZFS}        ,
+          #{TCDXJZFS}        ,
+          #{FJDXJZFS}        ,
+          #{TCZFS}           ,
+          #{FJZFS}           ,
+          #{CURACCOUNTAMT}          ,
+          #{HISACCOUNTAMT}          ,
+          #{YBJSFWFYZE}      ,
+          #{FYBJSFWFYZE}     ,
+          #{JGID}            ,
+          #{ZYJSKSRQ}  ,
+          #{ZYJSJSRQ}  ,
+          #{BCJSZYTS}
+        )
+    </insert>
+
+    <!--  新增-->
+    <insert id="insertYb52">
+        INSERT INTO SHYB_SI52 (
+              ZYHM    ,
+              ZYSFFSSJ    ,
+              ZYSFJSSJ    ,
+              CARDTYPE    ,
+              CARDID      ,
+              LSH         ,
+              JSSQXH      ,
+              JZDYH       ,
+              TOTALEXPENSE     ,
+              QFDZHZFS    ,
+              TCDZHZFS    ,
+              FJDZHZFS    ,
+              QFDXJZFS    ,
+              TCDXJZFS    ,
+              FJDXJZFS    ,
+              TCZFS       ,
+              FJZFS       ,
+              CURACCOUNTAMT ,
+              HISACCOUNTAMT ,
+              YBJSFWFYZE   ,
+              FYBJSFWFYZE  ,
+              JGID     ,
+              KNSJ     ,
+              ZFPB     ,
+              JSCS     ,
+              JFJE
+        ) VALUES (
+              #{ZYHM}    ,
+              #{ZYSFFSSJ}    ,
+              #{ZYSFJSSJ}    ,
+              #{CARDTYPE}    ,
+              #{CARDID}      ,
+              #{LSH}         ,
+              #{JSSQXH}      ,
+              #{JZDYH}       ,
+              #{TOTALEXPENSE}     ,
+              #{QFDZHZFS}    ,
+              #{TCDZHZFS}    ,
+              #{FJDZHZFS}    ,
+              #{QFDXJZFS}    ,
+              #{TCDXJZFS}    ,
+              #{FJDXJZFS}    ,
+              #{TCZFS}       ,
+              #{FJZFS}       ,
+              #{CURACCOUNTAMT} ,
+              #{HISACCOUNTAMT} ,
+              #{YBJSFWFYZE}   ,
+              #{FYBJSFWFYZE}  ,
+              #{JGID}     ,
+              #{KNSJ}     ,
+              #{ZFPB}     ,
+              #{JSCS}     ,
+              #{JFJE}
+        )
+    </insert>
+
+    <select id="getMxzdh" resultType="java.util.Map">
+       select distinct(yb_sn01.mxzdh) as mxzdh
+          from
+            shyb_sn01_zy yb_sn01 ,
+            im_hzry brry,
+            im_fee_fymx fymx
+          where
+            yb_sn01.jzdyh = brry.jzdyh and
+		    yb_sn01.fymxjlxh = fymx.jlxh  and
+		    yb_sn01.mxzdh = fymx.mxzdh and
+		    yb_sn01.clbz = 0 and
+		    yb_sn01.cxbz is null and
+		    fymx.mxjsbz is null and
+		    fymx.mxscbz = 1 and
+		    brry.zyh = #{zyh} and
+		    yb_sn01.jzdyh = #{jzdyh}
+		    AND fymx.JSCS = 0
+        <choose>
+            <when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">
+                and STR_TO_DATE(fymx.FYRQ,'%Y-%m-%d') &lt;= STR_TO_DATE(#{jsrq},'%Y%m%d')
+            </when>
+        </choose>
+    </select>
+
+
+    <select id="getScmxList" resultType="java.util.Map">
+       select a.fymxjlxh as jlxh ,a.mxzdh as mxzdh
+          from
+            shyb_sn01_zy a
+		  where
+		    a.mxzdh in(
+                select distinct(yb_sn01.mxzdh) as mxzdh
+                from
+                shyb_sn01_zy yb_sn01 ,
+                im_hzry brry,
+                im_fee_fymx fymx
+                where
+                yb_sn01.jzdyh = brry.jzdyh and
+                yb_sn01.fymxjlxh = fymx.jlxh  and
+                yb_sn01.mxzdh = fymx.mxzdh and
+                yb_sn01.clbz = 0 and
+                yb_sn01.cxbz is null and
+                fymx.mxjsbz is null and
+                fymx.mxscbz = 1 and
+                brry.zyh = #{zyh} and
+                yb_sn01.jzdyh = #{jzdyh}
+                AND fymx.JSCS = 0
+                <choose>
+                    <when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">
+                        and STR_TO_DATE(fymx.FYRQ,'%Y-%m-%d') &lt;= STR_TO_DATE(#{jsrq},'%Y-%m-%d')
+                    </when>
+                </choose>
+        )
+        and
+		    a.clbz = 0 and
+		    a.cxbz is null and
+		    a.jzdyh = #{jzdyh}
+		    order by a.fymxjlxh+0
+    </select>
+
+    <select id="getFymxList" resultType="java.util.Map">
+       select a.jlxh as jlxh ,a.mxzdh as mxzdh
+          from
+            im_fee_fymx a
+          where
+            a.zyh = #{zyh} and
+            a.jzdyh = #{jzdyh} and
+            a.mxzdh in (
+        select distinct(yb_sn01.mxzdh) as mxzdh
+        from
+        shyb_sn01_zy yb_sn01 ,
+        im_hzry brry,
+        im_fee_fymx fymx
+        where
+        yb_sn01.jzdyh = brry.jzdyh and
+        yb_sn01.fymxjlxh = fymx.jlxh  and
+        yb_sn01.mxzdh = fymx.mxzdh and
+        yb_sn01.clbz = 0 and
+        yb_sn01.cxbz is null and
+        fymx.mxjsbz is null and
+        fymx.mxscbz = 1 and
+        brry.zyh = #{zyh} and
+        yb_sn01.jzdyh = #{jzdyh}
+        AND fymx.JSCS = 0
+        <choose>
+            <when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">
+                and STR_TO_DATE(fymx.FYRQ,'%Y-%m-%d') &lt;= STR_TO_DATE(#{jsrq},'%Y-%m-%d')
+            </when>
+        </choose>
+            )  and
+            a.mxscbz = 1 order by a.jlxh
+    </select>
+
+    <select id="getJbmc" resultType="java.util.Map">
+      select
+          b.JBMC as JBMC,
+          b.ICD10 as ICD10
+        from
+          im_ryzd a,
+          dic_jbbm b
+        where
+          a.zdxh = b.jbxh and
+          a.zyh = #{zyh}
+    </select>
+
+    <update id="updateFymxbz" >
+        update
+        im_fee_fymx
+        set
+        mxjsbz = 1,
+        jscs = #{jscs}
+        where
+        jlxh in ( select jlxh from  (select  a.jlxh   from
+        im_fee_fymx a,
+        shyb_sn01_zy b
+        where
+        a.jlxh = b.fymxjlxh and
+        a.mxzdh = b.mxzdh  and
+        a.zyh = #{zyh} and
+        a.jzdyh = #{jzdyh}  and
+        a.mxzdh in
+        <foreach item="item"  collection="mxzdh" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and
+        a.mxscbz = 1   and
+        b.clbz = 0  and
+        b.cxbz is null
+        ) a )
+
+    </update>
+
+<!-- 更新结算次数-->
+    <update id ="updateJscs52" >
+        UPDATE
+            SHYB_SI52
+          SET
+            JSCS = #{jscs}
+          Where
+            JSSQXH = #{jssqxh}
+    </update>
+
+    <!-- 更新作废判别-->
+    <update id ="updateYbsi51Zf" >
+        UPDATE
+            SHYB_SI52
+          SET
+            zfpb = '1'
+          Where
+            zfpb = '0' and
+            lsh = #{lsh}
+    </update>
+
+    <update id="updateImfymxjsbz" >
+       update
+          im_fee_fymx
+        set
+         mxjsbz=null where mxzdh in
+            (select a.mxzdh from (
+                  select distinct(a.mxzdh) as mxzdh from im_fee_fymx a,shyb_sn01_zy b,shyb_si52 c where
+                  	  a.mxzdh=b.mxzdh and b.jssqxh=c.jssqxh and c.lsh=#{lsh}	) a
+            )
+    </update>
+
+    <select id="checkIsdeal" resultType="java.util.Map">
+        select count(1) as num from shyb_si52 where jssqxh= #{jssqxh}
+    </select>
+
+    <select id="queryJlxh" resultType="java.util.Map">
+      select  a.jlxh
+        from im_fee_fymx a, shyb_sn01_zy b
+        where
+            a.jlxh = b.fymxjlxh and
+            a.mxzdh = b.mxzdh  and
+            a.zyh = #{zyh} and
+            a.jzdyh = #{jzdyh}  and
+            a.mxzdh in
+        <foreach item="item" index="index" collection="mxzdh" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+            and
+             a.mxscbz = 1   and
+             b.clbz = 0  and
+            b.cxbz is null
+    </select>
+
+</mapper>
+

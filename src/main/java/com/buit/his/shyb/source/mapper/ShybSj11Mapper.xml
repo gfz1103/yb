@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 门诊_门诊类别 -->
+<mapper namespace="com.buit.his.shyb.source.dao.ShybSj11Dao">
+    <!--  新增-->
+    <insert id="insertYbrj11">
+        INSERT INTO SHYB_RJ11 (
+              JLXH  ,
+              ZYH   ,
+              CARDTYPE  ,
+              CARDID ,
+              JZDYH   ,
+              PERSONNAME ,
+              SFZH  ,
+              RYSX  ,
+              GZQK  ,
+              ZCYYMC ,
+              STARTDATE ,
+              ENDDATE ,
+              LSH  ,
+              CURACCOUNTAMT ,
+              HISACCOUNTAMT
+        ) VALUES (
+          #{JLXH}  ,
+              #{ZYH}   ,
+              #{CARDTYPE}  ,
+              #{CARDID} ,
+              #{JZDYH}   ,
+              #{PERSONNAME} ,
+              #{SFZH}  ,
+              #{RYSX}  ,
+              #{GZQK}  ,
+              #{ZCYYMC} ,
+              #{STARTDATE} ,
+              #{ENDDATE} ,
+              #{LSH}  ,
+              #{CURACCOUNTAMT} ,
+              #{HISACCOUNTAMT}
+        )
+    </insert>
+
+      <select id="getJzdyhByZyh" resultType="java.util.Map">
+        SELECT  JZDYH AS JZDYH
+            FROM IM_HZRY
+            WHERE ZYH = #{zyh}
+    </select>
+
+
+
+</mapper>
+

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 医保报销比例规则表 -->
+<mapper namespace="com.buit.his.medinsuinterface.sh.dataitem.dao.ShybYbblgzDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        YBBLGZDATA_ID as ybblgzdataId,DATA_VERSION as dataVersion,GMT_CREATE as gmtCreate,GMT_MODIFY as gmtModify,HOSPITAL_ID as hospitalId,TBDM as tbdm,FBRQ as fbrq,FBLX as fblx,YBRQ as ybrq,KBXBL as kbxbl,GRCDBL as grcdbl,ZFXR as zfxr,XEJLDW as xejldw,XELJFS as xeljfs,SYBZDM as sybzdm,SYBZMC as sybzmc,GZWZSM as gzwzsm,GZLY as gzly,QYRQ as qyrq,YXRQ as yxrq,BGZD as bgzd
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO SHYB_YBBLGZ (
+            YBBLGZDATA_ID ,
+            DATA_VERSION ,
+            GMT_CREATE ,
+            GMT_MODIFY ,
+            HOSPITAL_ID ,
+            TBDM ,
+            PY_CODE,
+            WB_CODE,
+            FBRQ ,
+            FBLX ,
+            YBRQ ,
+            KBXBL ,
+            GRCDBL ,
+            ZFXR ,
+            XEJLDW ,
+            XELJFS ,
+            SYBZDM ,
+            SYBZMC ,
+            GZWZSM ,
+            GZLY ,
+            QYRQ ,
+            YXRQ ,
+            BGZD ,
+            JYL 
+        ) VALUES (
+            #{ybblgzdataId} ,
+            #{dataVersion} ,
+            #{gmtCreate} ,
+            #{gmtCreate} ,
+            #{hospitalId} ,
+            #{tbdm} ,
+            #{pyCode},
+            #{wbCode},
+            #{fbrq} ,
+            #{fblx} ,
+            #{ybrq} ,
+            #{kbxbl} ,
+            #{grcdbl} ,
+            #{zfxr} ,
+            #{xejldw} ,
+            #{xeljfs} ,
+            #{sybzdm} ,
+            #{sybzmc} ,
+            #{gzwzsm} ,
+            #{gzly} ,
+            #{qyrq} ,
+            #{yxrq} ,
+            #{bgzd} ,
+            #{jyl} 
+        )
+    </insert>
+    
+    <update id="update" >
+        UPDATE SHYB_YBBLGZ SET
+            DATA_VERSION = #{dataVersion} ,
+            GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} ,
+            HOSPITAL_ID = #{hospitalId} ,
+            TBDM = #{tbdm} ,
+            PY_CODE = #{pyCode},
+            WB_CODE = #{wbCode},
+            FBRQ = #{fbrq} ,
+            FBLX = #{fblx} ,
+            YBRQ = #{ybrq} ,
+            KBXBL = #{kbxbl} ,
+            GRCDBL = #{grcdbl} ,
+            ZFXR = #{zfxr} ,
+            XEJLDW = #{xejldw} ,
+            XELJFS = #{xeljfs} ,
+            SYBZDM = #{sybzdm} ,
+            SYBZMC = #{sybzmc} ,
+            GZWZSM = #{gzwzsm} ,
+            GZLY = #{gzly} ,
+            QYRQ = #{qyrq} ,
+            YXRQ = #{yxrq} ,
+            BGZD = #{bgzd} ,
+            JYL = #{jyl} 
+        WHERE 
+            YBBLGZDATA_ID = #{ybblgzdataId} 
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM SHYB_YBBLGZ WHERE
+        YBBLGZDATA_ID = #{ybblgzdataId} 
+    </delete>
+    
+    <delete id="removeByEntity">
+        DELETE FROM SHYB_YBBLGZ <include refid="where"/>  
+    </delete>
+    
+    <select id="getById" resultType="ShybYbblgz">
+        SELECT <include refid="columns" />
+            FROM SHYB_YBBLGZ 
+            WHERE 
+        YBBLGZDATA_ID = #{ybblgzdataId} 
+    </select>
+    <select id="getBytBdm" resultType="long">
+        SELECT <include refid="columns" />
+            FROM SHYB_YBBLGZ
+            WHERE TBDM = #{tbdm}
+        <if test="@sqlt.Ognl@isNotEmpty(ybblgzdataId)">
+             AND YBBLGZDATA_ID != #{ybblgzdataId}
+        </if>
+    </select>
+
+    <sql id="where">
+        <where>                          
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ybblgzdataId)"> -->
+<!--                     AND YBBLGZDATA_ID = #{ybblgzdataId} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(dataVersion)"> -->
+<!--                     AND DATA_VERSION = #{dataVersion} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtCreate)"> -->
+<!--                     AND GMT_CREATE = #{gmtCreate} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gmtModify)"> -->
+<!--                     AND GMT_MODIFY = #{gmtModify} -->
+<!--                </if> -->
+               <if test="@sqlt.Ognl@isNotEmpty(hospitalId)">
+                    AND HOSPITAL_ID = #{hospitalId}
+               </if>
+				<if test="@sqlt.Ognl@isNotEmpty(tbdm)">
+                    AND (
+                        TBDM LIKE CONCAT(CONCAT('%',UPPER(#{tbdm})),'%')
+                        or PY_CODE LIKE CONCAT(CONCAT('%',UPPER(#{tbdm})),'%')
+                        or WB_CODE LIKE CONCAT(CONCAT('%',UPPER(#{tbdm})),'%')
+                    )
+                </if>
+<!--                <if test="@sqlt.Ognl@isNotEmpty(fbrq)"> -->
+<!--                     AND FBRQ = #{fbrq} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(fblx)"> -->
+<!--                     AND FBLX = #{fblx} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ybrq)"> -->
+<!--                     AND YBRQ = #{ybrq} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(kbxbl)"> -->
+<!--                     AND KBXBL = #{kbxbl} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(grcdbl)"> -->
+<!--                     AND GRCDBL = #{grcdbl} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(zfxr)"> -->
+<!--                     AND ZFXR = #{zfxr} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(xejldw)"> -->
+<!--                     AND XEJLDW = #{xejldw} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(xeljfs)"> -->
+<!--                     AND XELJFS = #{xeljfs} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(sybzdm)"> -->
+<!--                     AND SYBZDM = #{sybzdm} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(sybzmc)"> -->
+<!--                     AND SYBZMC = #{sybzmc} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gzwzsm)"> -->
+<!--                     AND GZWZSM = #{gzwzsm} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(gzly)"> -->
+<!--                     AND GZLY = #{gzly} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(qyrq)"> -->
+<!--                     AND QYRQ = #{qyrq} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(yxrq)"> -->
+<!--                     AND YXRQ = #{yxrq} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(bgzd)"> -->
+<!--                     AND BGZD = #{bgzd} -->
+<!--                </if> -->
+        </where>
+    </sql>
+        
+    <select id="findByEntityCount" resultType="long">
+        SELECT count(*) FROM SHYB_YBBLGZ 
+        <include refid="where"/>    
+    </select>
+    
+    <select id="findByEntity" resultType="ShybYbblgz">
+        SELECT <include refid="columns" />
+        FROM SHYB_YBBLGZ 
+        <include refid="where"/>
+        
+        <if test="@sqlt.Ognl@orderIsNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+    <!--     业务sql      -->
+    
+    <update id="updateByTbdm" >
+        UPDATE SHYB_YBBLGZ SET
+            DATA_VERSION = #{dataVersion} ,
+            GMT_CREATE = #{gmtCreate} ,
+            GMT_MODIFY = #{gmtModify} ,
+            HOSPITAL_ID = #{hospitalId} ,
+            TBDM = #{tbdm} ,
+            FBRQ = #{fbrq} ,
+            FBLX = #{fblx} ,
+            YBRQ = #{ybrq} ,
+            KBXBL = #{kbxbl} ,
+            GRCDBL = #{grcdbl} ,
+            ZFXR = #{zfxr} ,
+            XEJLDW = #{xejldw} ,
+            XELJFS = #{xeljfs} ,
+            SYBZDM = #{sybzdm} ,
+            SYBZMC = #{sybzmc} ,
+            GZWZSM = #{gzwzsm} ,
+            GZLY = #{gzly} ,
+            QYRQ = #{qyrq} ,
+            YXRQ = #{yxrq} ,
+            BGZD = #{bgzd} 
+        WHERE 
+            TBDM = #{tbdm} 
+    </update>
+</mapper>
+

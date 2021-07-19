@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 门诊_门诊类别 -->
+<mapper namespace="com.buit.his.shyb.source.dao.ShybSi11Dao">
+    
+<!--  新增-->
+    <insert id="insertYbsi11">
+        INSERT INTO SHYB_SI11 (
+              FSSJ  ,
+              JSSJ   ,
+              CARDTYPE  ,
+              CARDID   ,
+              PERSONNAME   ,
+              PERSONSPECTAG  ,
+              ACCOUNTATTR   ,
+              TOTALEXPENSE   ,
+              CURACCOUNTPAY   ,
+              HISACCOUNTPAY   ,
+              ZFDXJZFS  ,
+              ZFDLNZHZFS ,
+              TCDZHZFS ,
+              TCDXJZFS  ,
+              TCZFS  ,
+              FJDZHZFS   ,
+              FJDXJZFS ,
+              FJZFS  ,
+              CURACCOUNTAMT ,
+              HISACCOUNTAMT  ,
+              YBJSFWFYZE ,
+              FYBJSFWFYZE ,
+              JSSQXH  ,
+              JLC ,
+              KNSJ  ,
+              JGID  ,
+              <if test="@sqlt.Ognl@isNotEmpty(zhilf)">
+                  ZHILF,
+              </if>
+            <if test="@sqlt.Ognl@isNotEmpty(ssclf)">
+                SSCLF,
+              </if>
+        <if test="@sqlt.Ognl@isNotEmpty(jcf)">
+            JCF,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(hyf)">
+            HYF,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(spf)">
+              SPF  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(tsf)">
+              TSF  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(xyf)">
+              XYF  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zcyf)">
+              ZCYF  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zcaoyf)">
+              ZCAOYF  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(qtf)">
+              QTF  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zhilfzz)">
+              ZHILFZZ  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(ssclfzz)">
+              SSCLFZZ  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(jcfzz)">
+              JCFZZ  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(hyfzz)">
+              HYFZZ  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(spfzz)">
+              SPFZZ  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(tsfzz)">
+              TSFZZ  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(xyfzz)">
+              XYFZZ  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zcyfzz)">
+              ZCYFZZ   ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zcaoyfzz)">
+              ZCAOYFZZ   ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(qtfzz)">
+              QTFZZ   ,
+        </if>
+              YBKS  ,
+              ZJJSBZ  ,
+              JFJE  ,
+              JSLX  ,
+              JZDYH  ,
+              DBBZ   ,
+              DBBM   ,
+              DBXM
+        ) VALUES (
+             #{fssj}  ,
+              #{jssj}   ,
+              #{cardtype}  ,
+              #{cardid}   ,
+              #{personname}   ,
+              #{personspectag}  ,
+              #{accountattr}   ,
+              #{totalexpense}   ,
+              #{curaccountpay}   ,
+              #{hisaccountpay}   ,
+              #{zfdxjzfs}  ,
+              #{zfdlnzhzfs} ,
+              #{tcdzhzfs} ,
+              #{tcdxjzfs}  ,
+              #{tczfs}  ,
+              #{fjdzhzfs}   ,
+              #{fjdxjzfs} ,
+              #{fjzfs}  ,
+              #{curaccountamt} ,
+              #{hisaccountamt}  ,
+              #{ybjsfwfyze} ,
+              #{fybjsfwfyze} ,
+              #{jssqxh}  ,
+              #{jlc} ,
+              #{knsj}  ,
+              #{jgid}  ,
+              <if test="@sqlt.Ognl@isNotEmpty(zhilf)">
+                  #{zhilf},
+              </if>
+        <if test="@sqlt.Ognl@isNotEmpty(ssclf)">
+              #{ssclf} ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(jcf)">
+              #{jcf}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(hyf)">
+              #{hyf}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(spf)">
+              #{spf}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(tsf)">
+              #{tsf}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(xyf)">
+              #{xyf}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zcyf)">
+              #{zcyf}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zcaoyf)">
+              #{zcaoyf}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(qtf)">
+              #{qtf}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zhilfzz)">
+              #{zhilfzz}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(ssclfzz)">
+              #{ssclfzz}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(jcfzz)">
+              #{jcfzz}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(hyfzz)">
+              #{hyfzz}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(spfzz)">
+              #{spfzz}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(tsfzz)">
+              #{tsfzz}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(xyfzz)">
+              #{xyfzz}  ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zcyfzz)">
+              #{zcyfzz}   ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(zcaoyfzz)">
+              #{zcaoyfzz}   ,
+        </if>
+        <if test="@sqlt.Ognl@isNotEmpty(qtfzz)">
+              #{qtfzz}   ,
+        </if>
+              #{ybks}  ,
+              #{zjjsbz}  ,
+              #{jfje}  ,
+              #{jslx}  ,
+              #{jzdyh}  ,
+              #{dbbz}   ,
+              #{dbbm}   ,
+              #{dbxm}
+        )
+    </insert>
+
+    <!--  新增-->
+    <insert id="insertYbsi12">
+        INSERT INTO SHYB_SI12 (
+          MZXH  ,
+          JSSQXH  ,
+          LSH  ,
+          FSSJ  ,
+          JSSJ  ,
+          CARDTYPE  ,
+          CARDID  ,
+          TOTALEXPENSE  ,
+          CURACCOUNTPAY  ,
+          HISACCOUNTPAY  ,
+          ZFDXJZFS  ,
+          TCDXJZFS  ,
+          TCZFS  ,
+          FJDXJZFS  ,
+          FJZFS  ,
+          CURACCOUNTAMT  ,
+          HISACCOUNTAMT  ,
+          YBJSFWFYZE  ,
+          FYBJSFWFYZE  ,
+          JLC  ,
+          KNSJ  ,
+          JGID  ,
+          ZFPB  ,
+          JFJE  ,
+          ZFDLNZHZFS  ,
+          TCDZHZFS  ,
+          FJDZHZFS  ,
+          ZT  ,
+          JSLX  ,
+          GSBZ  ,
+          GSRDH  ,
+          DBBZ  ,
+          ORDERNO
+        ) VALUES (
+          #{mzxh}  ,
+          #{jssqxh}  ,
+          #{lsh}  ,
+          #{fssj}  ,
+          #{jssj}  ,
+          #{cardtype}  ,
+          #{cardid}  ,
+          #{totalexpense}  ,
+          #{curaccountpay}  ,
+          #{hisaccountpay}  ,
+          #{zfdxjzfs}  ,
+          #{tcdxjzfs}  ,
+          #{tczfs}  ,
+          #{fjdxjzfs}  ,
+          #{fjzfs}  ,
+          #{curaccountamt}  ,
+          #{hisaccountamt}  ,
+          #{ybjsfwfyze}  ,
+          #{fybjsfwfyze}  ,
+          #{jlc}  ,
+          #{knsj}  ,
+          #{jgid}  ,
+          #{zfpb}  ,
+          #{jfje}  ,
+          #{zfdlnzhzfs}  ,
+          #{tcdzhzfs}  ,
+          #{fjdzhzfs}  ,
+          #{zt}  ,
+          #{jslx}  ,
+          #{gsbz}  ,
+          #{gsrdh}  ,
+          #{dbbz}  ,
+          #{orderno}
+        )
+    </insert>
+
+    <!-- 收费获取疾病编码 -->
+    <select id="getZdBysf" resultType="java.util.HashMap">
+		select distinct a.icd10 as zdno,a.jbmc as zdmc  from DIC_JBBM a,OP_BRZD b
+		where a.JBXH = b.zdxh and b.jzlsh= #{jzlsh}
+	</select>
+
+
+</mapper>
+

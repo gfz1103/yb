@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO询价单 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoXjdDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,GPO_JGID as gpoJgid,XJDBH as xjdbh,SPLX as splx,YPLX as yplx,XJRQ as xjrq,XJQSRQ as xjqsrq,XJJZRQ as xjjzrq,ZXSPBM as zxspbm,YYSPBM as yyspbm,BZSM as bzsm,ZT as zt,SCSJ as scsj,SCRDM as scrdm,CBZT as cbzt,CBSJ as cbsj,CBRDM as cbrdm,ZFZT as zfzt,ZFSJ as zfsj,ZFRDM as zfrdm,QRZT as qrzt,QRSJ as qrsj,QRRDM as qrrdm,C_TIME as ctime,C_USER as cuser,C_UNAME as cuname
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_XJD (
+            XH ,
+            JGID ,
+            GPO_JGID ,
+            XJDBH ,
+            SPLX ,
+            YPLX ,
+            XJRQ ,
+            XJQSRQ ,
+            XJJZRQ ,
+            ZXSPBM ,
+            YYSPBM ,
+            BZSM ,
+            ZT ,
+            SCSJ ,
+            SCRDM ,
+            CBZT ,
+            CBSJ ,
+            CBRDM ,
+            ZFZT ,
+            ZFSJ ,
+            ZFRDM ,
+            QRZT ,
+            QRSJ ,
+            QRRDM ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME 
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{gpoJgid} ,
+            #{xjdbh} ,
+            #{splx} ,
+            #{yplx} ,
+            #{xjrq} ,
+            #{xjqsrq} ,
+            #{xjjzrq} ,
+            #{zxspbm} ,
+            #{yyspbm} ,
+            #{bzsm} ,
+            #{zt} ,
+            #{scsj} ,
+            #{scrdm} ,
+            #{cbzt} ,
+            #{cbsj} ,
+            #{cbrdm} ,
+            #{zfzt} ,
+            #{zfsj} ,
+            #{zfrdm} ,
+            #{qrzt} ,
+            #{qrsj} ,
+            #{qrrdm} ,
+            #{ctime} ,
+            #{cuser} ,
+            #{cuname} 
+        )
+    </insert>
+    
+    <update id="update" >
+        UPDATE GPO_XJD SET
+            JGID = #{jgid} ,
+            GPO_JGID = #{gpoJgid} ,
+            XJDBH = #{xjdbh} ,
+            SPLX = #{splx} ,
+            YPLX = #{yplx} ,
+            XJRQ = #{xjrq} ,
+            XJQSRQ = #{xjqsrq} ,
+            XJJZRQ = #{xjjzrq} ,
+            ZXSPBM = #{zxspbm} ,
+            YYSPBM = #{yyspbm} ,
+            BZSM = #{bzsm} ,
+            ZT = #{zt} ,
+            SCSJ = #{scsj} ,
+            SCRDM = #{scrdm} ,
+            CBZT = #{cbzt} ,
+            CBSJ = #{cbsj} ,
+            CBRDM = #{cbrdm} ,
+            ZFZT = #{zfzt} ,
+            ZFSJ = #{zfsj} ,
+            ZFRDM = #{zfrdm} ,
+            QRZT = #{qrzt} ,
+            QRSJ = #{qrsj} ,
+            QRRDM = #{qrrdm} ,
+            C_TIME = #{ctime} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} 
+        WHERE 
+            XH = #{xh}
+    </update>
+
+    <delete id="deleteById"></delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoXjd">
+        SELECT <include refid="columns" />
+            FROM GPO_XJD 
+            WHERE 
+        XH = #{xh} 
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoXjd"></select>
+    <!--     业务sql      -->
+    <select id="page" resultType="com.buit.his.gpo.service.result.GpoXjdDto">
+        SELECT
+            ypxx.YPTYM AS spmc,
+            xjd.XH AS xh,
+            xjd.JGID AS jgid,
+            xjd.GPO_JGID AS gpoJgid,
+            xjd.XJDBH AS xjdbh,
+            xjd.SPLX AS splx,
+            xjd.YPLX AS yplx,
+            xjd.XJRQ AS xjrq,
+            xjd.XJQSRQ AS xjqsrq,
+            xjd.XJJZRQ AS xjjzrq,
+            xjd.ZXSPBM AS zxspbm,
+            xjd.YYSPBM AS yyspbm,
+            xjd.BZSM AS bzsm,
+            xjd.ZT AS zt,
+            xjd.SCSJ AS scsj,
+            xjd.SCRDM AS scrdm,
+            xjd.CBZT AS cbzt,
+            xjd.CBSJ AS cbsj,
+            xjd.CBRDM AS cbrdm,
+            xjd.ZFZT AS zfzt,
+            xjd.ZFSJ AS zfsj,
+            xjd.ZFRDM AS zfrdm,
+            xjd.QRZT AS qrzt,
+            xjd.QRSJ AS qrsj,
+            xjd.QRRDM AS qrrdm,
+            xjd.C_TIME AS ctime,
+            xjd.C_USER AS cuser,
+            xjd.C_UNAME AS cuname
+        FROM GPO_XJD xjd
+        LEFT JOIN shyb_ypjcxx ypxx ON ypxx.TBDM = xjd.ZXSPBM
+        <where>
+            xjd.ZT = 1
+            AND xjd.JGID = #{jgid}
+            <if test="xjrqks != null">
+                AND xjd.XJRQ >= #{xjrqks}
+            </if>
+            <if test="xjrqjz != null">
+                AND xjd.XJRQ &lt;= #{xjrqjz}
+            </if>
+            <if test="xjsptbbm != null">
+                AND (ypxx.YPTYM like concat(concat('%',#{xjsptbbm}),'%')
+                or ypxx.PY_CODE like concat(concat('%',#{xjsptbbm}),'%')
+                )
+            </if>
+            <if test="(cbzt != null and cbzt.size() > 0) || qrzt != null || zfzt != null">
+                AND (
+                <trim prefixOverrides="OR">
+                    <if test="cbzt != null and cbzt.size() > 0">
+                        xjd.CBZT IN
+                        <foreach collection="cbzt" item="cb" open="(" separator="," close=")">
+                            <if test="cb != null">
+                                #{cb}
+                            </if>
+                        </foreach>
+                    </if>
+
+                    <if test="qrzt != null">
+                        OR xjd.QRZT = #{qrzt}
+                    </if>
+                    <if test="zfzt != null">
+                        OR xjd.ZFZT = #{zfzt}
+                    </if>
+                </trim>
+                )
+            </if>
+        </where>
+    </select>
+    <select id="detail" resultType="com.buit.his.gpo.service.result.GpoXjdDto">
+        SELECT t.*,
+        ypxx.YPTYM AS spmc
+        FROM (
+        SELECT <include refid="columns" />
+        FROM GPO_XJD
+        WHERE XH = #{xh}
+        ) t inner join shyb_ypjcxx ypxx ON ypxx.TBDM = t.ZXSPBM
+    </select>
+
+</mapper>
+

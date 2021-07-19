@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO订单明细 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoDdmxDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,GPO_JGID as gpoJgid,DDXH as ddxh,DDBH as ddbh,DDMXBH as ddmxbh,SXH as sxh,CGLX as cglx,SPLX as splx,SPMC as spmc,ZXSPBM as zxspbm,GGBZ as ggbz,CGJLDW as cgjldw,CGSL as cgsl,CGDJ as cgdj,YQBM as yqbm,DCPSBS as dcpsbs,BZSM as bzsm,YYSPBM as yyspbm,CLJG as cljg,CLQKMS as clqkms,ZT as zt,C_TIME as ctime,C_USER as cuser,C_UNAME as cuname,bzzh as bzzh,dwmc as dwmc
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_DDMX (
+            XH ,
+            JGID ,
+            GPO_JGID ,
+            DDXH ,
+            DDBH ,
+            DDMXBH ,
+            SXH ,
+            CGLX ,
+            SPLX ,
+            SPMC ,
+            ZXSPBM ,
+            GGBZ ,
+            CGJLDW ,
+            CGSL ,
+            CGDJ ,
+            YQBM ,
+            DCPSBS ,
+            BZSM ,
+            YYSPBM ,
+            CLJG ,
+            CLQKMS ,
+            ZT ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME ,
+            bzzh ,
+            dwmc
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{gpoJgid} ,
+            #{ddxh} ,
+            #{ddbh} ,
+            #{ddmxbh} ,
+            #{sxh} ,
+            #{cglx} ,
+            #{splx} ,
+            #{spmc} ,
+            #{zxspbm} ,
+            #{ggbz} ,
+            #{cgjldw} ,
+            #{cgsl} ,
+            #{cgdj} ,
+            #{yqbm} ,
+            #{dcpsbs} ,
+            #{bzsm} ,
+            #{yyspbm} ,
+            #{cljg} ,
+            #{clqkms} ,
+            #{zt} ,
+            #{ctime} ,
+            #{cuser} ,
+            #{cuname} ,
+            #{bzzh} ,
+            #{dwmc}
+        )
+    </insert>
+
+    <insert id="batchInsert">
+        INSERT INTO GPO_DDMX (
+            XH ,
+            JGID ,
+            GPO_JGID ,
+            DDXH ,
+            DDBH ,
+            DDMXBH ,
+            SXH ,
+            CGLX ,
+            SPLX ,
+            SPMC ,
+            ZXSPBM ,
+            GGBZ ,
+            CGJLDW ,
+            CGSL ,
+            CGDJ ,
+            YQBM ,
+            DCPSBS ,
+            BZSM ,
+            YYSPBM ,
+            CLJG ,
+            CLQKMS ,
+            ZT ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME ,
+            bzzh,
+            dwmc
+        ) VALUES
+            <foreach collection="list" item="d" separator=",">
+                (
+                #{d.xh} ,
+                #{d.jgid} ,
+                #{d.gpoJgid} ,
+                #{d.ddxh} ,
+                #{d.ddbh} ,
+                #{d.ddmxbh} ,
+                #{d.sxh} ,
+                #{d.cglx} ,
+                #{d.splx} ,
+                #{d.spmc} ,
+                #{d.zxspbm} ,
+                #{d.ggbz} ,
+                #{d.cgjldw} ,
+                #{d.cgsl} ,
+                #{d.cgdj} ,
+                #{d.yqbm} ,
+                #{d.dcpsbs} ,
+                #{d.bzsm} ,
+                #{d.yyspbm} ,
+                #{d.cljg} ,
+                #{d.clqkms} ,
+                #{d.zt} ,
+                #{d.ctime} ,
+                #{d.cuser} ,
+                #{d.cuname} ,
+                #{d.bzzh},
+                 #{d.dwmc}
+                )
+            </foreach>
+
+    </insert>
+    <update id="update" >
+        UPDATE GPO_DDMX SET
+            JGID = #{jgid} ,
+            GPO_JGID = #{gpoJgid} ,
+            DDXH = #{ddxh} ,
+            DDBH = #{ddbh} ,
+            DDMXBH = #{ddmxbh} ,
+            SXH = #{sxh} ,
+            CGLX = #{cglx} ,
+            SPLX = #{splx} ,
+            SPMC = #{spmc} ,
+            ZXSPBM = #{zxspbm} ,
+            GGBZ = #{ggbz} ,
+            CGJLDW = #{cgjldw} ,
+            CGSL = #{cgsl} ,
+            CGDJ = #{cgdj} ,
+            YQBM = #{yqbm} ,
+            DCPSBS = #{dcpsbs} ,
+            BZSM = #{bzsm} ,
+            YYSPBM = #{yyspbm} ,
+            CLJG = #{cljg} ,
+            CLQKMS = #{clqkms} ,
+            ZT = #{zt} ,
+            C_TIME = #{ctime} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname},
+            bzzh = #{bzzh},
+            dwmc = #{dwmc}
+        WHERE
+            XH = #{xh}
+    </update>
+
+    <delete id="deleteById">
+
+
+    </delete>
+
+    <delete id="deleteByDdxh" >
+         delete from gpo_ddmx where DDXH=#{ddxh}
+
+    </delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoDdmx">
+        SELECT <include refid="columns" />
+            FROM GPO_DDMX 
+            WHERE 
+        XH = #{xh} 
+    </select>
+
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoDdmx"></select>
+    <!--     业务sql      -->
+    <select id="details" resultType="com.buit.his.gpo.model.GpoDdmx">
+        select
+        <include refid="columns" />
+        from
+        gpo_ddmx
+        where DDXH=#{ddxh}
+
+    </select>
+    <select id="JeSum" resultType="com.buit.his.gpo.model.MoneySum">
+        select
+            IFNULL(a.CGSL*c.LSJG/ifnull(a.bzzh,1),0)  lszje,
+            IFNULL(a.CGSL*c.JHJE/ifnull(a.bzzh,1),0) jjzje
+
+        from
+            gpo_ddmx a inner join  drugs_ybyp b on a.ZXSPBM=b.ybbm
+            inner join drugs_ypcd c on b.ypxh=c.YPXH and b.ypcd=c.YPCD
+        where a.DDXH=#{xh}
+
+    </select>
+    <delete id="deleteByDdxhList">
+        delete from  gpo_ddmx where DDXH in (<foreach collection="list" item="xh" separator=",">#{xh}</foreach>)
+    </delete>
+
+    <select id="queryByddmxbh" resultType="com.buit.his.gpo.model.GpoDdmx">
+        select
+        <include refid="columns" />
+        from gpo_ddmx
+        where ddmxbh in (<foreach collection="list" item="d" separator=",">#{d}</foreach>)
+    </select>
+</mapper>
+

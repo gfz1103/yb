@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buit.his.shyb.upload.dao.BasyUploadDao">
+
+    <select id="basyUpload" resultType="com.buit.his.shyb.upload.model.BasyUpload">
+        SELECT
+        basy.YLJGD AS YLJGD,
+        basy.ZYH AS JYH,
+        yljg.HOSPITAL_CODE AS JGDM,
+        DATE_FORMAT(NOW(),'%Y%m%d') AS SBRQ,
+        '' AS YBSSJSBZ,
+        '' AS CYBZ,
+        '' AS SBLB,
+        CASE WHEN basy.BALX = '1' THEN '01' ELSE '02' END AS ZXYBZ,
+        basy.YLFFFS AS YLFKFS,
+        basy.JKKH AS JKKH,
+        basy.ZYCS AS ZYCS,
+        basy.BAH AS BAH,
+        basy.XM AS XM,
+        basy.XB AS XB,
+        DATE_FORMAT(basy.CSRQ,'%Y-%m-%d') AS CSRQ,
+        basy.NL AS NL,
+        basy.GJ AS GJ,
+        basy.NLDW AS NLDW,
+        basy.NLFZ AS NLFZ,
+        basy.NLFM AS NLFM,
+        basy.XSECSTZ AS XSECSTZ,
+        basy.XSERYTZ AS XSECSTZ,
+        basy.CSDSHENG AS CSDSHENG,
+        basy.CSDSHI AS CSDSHI,
+        basy.CSDXIAN AS CSDXIAN,
+        basy.JGSHENG AS JGSHENG,
+        basy.JGSHI AS JGSHI,
+        basy.MZ AS MZ,
+        '1' AS ZJLX,
+        basy.SFZH AS SFZH,
+        basy.ZY AS ZY,
+        basy.HY AS HY,
+        basy.XZZSHENG AS XZZ_S0,
+        basy.XZZSHI AS XZZ_S1,
+        basy.XZZXIAN AS XZZ_X,
+        basy.XZZXXDZ AS XZZ_DZ,
+        basy.DH AS DH,
+        basy.YB AS YB1,
+        basy.HKDZSHENG AS HKDZSHENG,
+        basy.HKDZSHI AS HKDZSHI,
+        basy.HKDZXIAN AS HKDZXIAN,
+        basy.HKDZXXDZ AS HKDZXXDZ,
+        basy.HKDZYB AS YB2,
+        basy.GZDWDZ AS GZDWJMC,
+        basy.DWDH AS DWDH,
+        basy.DWYB AS YB3,
+        basy.LXRXM AS LXRXM,
+        basy.LXRGX AS GX,
+        '' AS LXR_S0,
+        '' AS LXR_S1,
+        '' AS LXR_X,
+        basy.LXRDZ AS LXR_DZ,
+        basy.LXRDH AS DH1,
+        basy.RYTJ AS RYTJ,
+        basy.RYSJ AS RYSJ,
+        basy.RYKBDM AS RYKB,
+        basy.RYBF AS RYBF,
+        basy.ZKKBDM AS ZKKB,
+        basy.NJSYLJGMC AS NJSYLJGMC, -- 对应 WSY_YLJG和YZZY_YLJG
+        basy.CYSJ AS CYSJ,
+        basy.CYKBDM AS CYKB,
+        basy.CYBF AS CYBF,
+        basy.SJZYTS AS SJZYTS,
+        basy.MJZZDMCXY AS MZZD,
+        basy.MJZZDJBBMXY AS JBBM_S,
+        basy.MJZZDMCZY AS MZZD_XYZD,
+        basy.MJZZDJBBMZY AS JBBM_S2,
+        basy.SSZDWBYY AS WBYY,
+        basy.SSZDWBYYBM AS JBBM1_S,
+        basy.BLZDMC AS BLZD,
+        basy.BLZDJBBM AS JBBM2_S,
+        basy.BLH AS BLH,
+        basy.YWGM AS YWGM,
+        basy.GMYW AS GMYW,
+        basy.SWHZSJ AS SJ,
+        basy.XX AS XX,
+        basy.RH AS RH,
+        '' AS SXFY,  -- 输血反应
+        basy.KZRDM AS KZR_DM,
+        basy.ZRYSDM AS ZRYS_DM,
+        basy.ZZYSDM AS ZZYS_DM,
+        basy.ZYYSDM AS ZYYS_DM,
+        basy.JXYSDM AS JXYS_DM,
+        basy.ZRHSDM AS ZRHS,
+        basy.SXYSDM AS SXYS,
+        basy.BMYDM AS BMY,
+        basy.BAZL AS BAZL,
+        basy.ZKYSDM AS ZKYS,
+        basy.ZKHSDM AS ZKHS,
+        DATE_FORMAT(basy.ZKRQ,'%Y-%m-%d') AS ZKRQ,
+        basy.LYFS AS LYFS,
+        basy.ZZYJH AS ZZYJH,
+        basy.ZYMD AS MD,
+        basy.RYQTS AS RYQ_T,
+        basy.RYQXS AS RYQ_XS,
+        basy.RYQFZ AS RYQ_F,
+        basy.RYHTS AS RYH_T,
+        basy.RYHXS AS RYH_XS,
+        basy.RYHFZ AS RYH_F,
+        basy.ZLLB AS ZLLB,
+        basy.SSLCLJ AS SSLCLJ2,
+        basy.SYYLJGZYZJ AS ZYYJ,
+        basy.SYZYZLSB AS ZYZLSB,
+        basy.SYZYZLJS AS ZYZLJS,
+        basy.BZSH AS BZSH
+        FROM v_ba_basy basy
+        LEFT JOIN dic_yljg yljg ON basy.YLJGD = yljg.HOSPITAL_ID
+        WHERE basy.SFSH = '1'
+    </select>
+
+    <select id="basyZdUpload" resultType="com.buit.his.shyb.upload.model.BasyZdUpload">
+        SELECT
+        zd.YLJGD AS YLJGD,
+        zd.BAH AS BAH,
+        CONCAT_WS('','0',zd.XH-1) AS ZDXH,
+        zd.CYZDJBBM AS ZDBM1,
+        zd.CYZDMC AS ZDMC1,
+        CASE WHEN zd.LX = '2' THEN zd.CYZDJBBM ELSE '' END AS ZYZDBM,
+        CASE WHEN zd.LX = '2' THEN zd.CYZDMC ELSE '' END AS ZYZDMC,
+        zd.CYZDRYBQ AS RYBQ,
+        '' AS CYQK
+        FROM v_ba_basyzd zd
+        WHERE
+        zd.YLJGD = #{yljgd} AND zd.BAH = #{bah}
+    </select>
+
+    <select id="basySsUpload" resultType="com.buit.his.shyb.upload.model.BasySsUpload">
+        SELECT
+        ss.YLJGD AS YLJGD,
+        ss.BAH AS BAH,
+        CONCAT_WS('','0',ss.XH -1) AS SSXH,
+        ss.SSJCZBM AS SSBM1,
+        ss.SSJCZMC AS SSJCZMC1,
+        DATE_FORMAT(ss.SSJCZRQ,'%Y%m%d') AS SSJCZRQ,
+        ss.SSJB AS SSJB,
+        ss.SZDM AS SZ_DM,
+        ss.YZDM AS YZ,
+        ss.EZDM AS EZ,
+        CASE  WHEN ss.QKDJ = '1' THEN '0'
+              WHEN ss.QKDJ = '2' AND ss.YHLB = '1' THEN '1'
+                    WHEN ss.QKDJ = '2' AND ss.YHLB = '2' THEN '2'
+                    WHEN ss.QKDJ = '2' AND ss.YHLB = '3' THEN '3'
+                    WHEN ss.QKDJ = '2' AND ss.YHLB = '9' THEN '4'
+                    WHEN ss.QKDJ = '3' AND ss.YHLB = '1' THEN '5'
+                    WHEN ss.QKDJ = '3' AND ss.YHLB = '2' THEN '6'
+                    WHEN ss.QKDJ = '3' AND ss.YHLB = '3' THEN '7'
+                    WHEN ss.QKDJ = '3' AND ss.YHLB = '9' THEN '8'
+                    WHEN ss.QKDJ = '4' AND ss.YHLB = '1' THEN '9'
+                    WHEN ss.QKDJ = '4' AND ss.YHLB = '2' THEN '10'
+                    WHEN ss.QKDJ = '4' AND ss.YHLB = '3' THEN '11'
+                    WHEN ss.QKDJ = '4' AND ss.YHLB = '9' THEN '12'
+              ELSE '' END AS QKYLB,
+        ss.MZFS AS MZFS,
+        ss.MZYSDM AS MZYSDM
+        FROM v_ba_basyss ss
+        WHERE ss.YLJGD = #{yljgd} AND ss.BAH = #{bah}
+    </select>
+
+    <select id="basyFyUpload" resultType="com.buit.his.shyb.upload.model.BasyFyUpload">
+        SELECT BAH,YLJGD,BAFYLB,JE_0
+        FROM v_ba_basyfy_list
+        WHERE YLJGD = #{yljgd} AND BAH = #{bah};
+    </select>
+
+    <select id="basyTotalFee" resultType="com.buit.his.shyb.upload.model.BasyTotalFee">
+        SELECT
+        fymx.JGID AS YLJGD,
+        fymx.ZYH AS ZYH,
+        sum(fymx.ZJJE) AS ZFY,
+        sum(fymx.ZFJE) AS ZFJE,
+        sum(fymx.ZLJE) AS ZFIJE,
+        '0.00' AS QTZF
+        FROM
+        fee_ylsfxm ylsfxm
+        JOIN im_fee_fymx fymx
+        WHERE ylsfxm.FYXH = fymx.FYXH
+        AND fymx.JGID = #{yljgd} AND fymx.ZYH = #{zyh}
+        GROUP BY fymx.JGID,fymx.ZYH
+    </select>
+
+
+</mapper>
+

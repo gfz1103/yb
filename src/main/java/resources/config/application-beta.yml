@@ -1,0 +1,69 @@
+server:
+  port: 8464
+  tomcat: 
+    max-threads: 800 # tomcat最大线程数，默认为200
+    basedir: ${user.dir}/.temp/tomcat_his_releasees
+# 打开Tomcat的Access日志，并可以设置日志格式的方法：   
+    accesslog: 
+        enabled: true
+        buffered: true
+        directory: ${user.dir}/.temp/tomcat_his_releasees
+logging:
+   file:
+      name: ${user.dir}/.temp/tomcat_his_releasees/his.log
+      max-history: 10000
+   level:
+      com.buit: INFO      
+
+spring: 
+   datasource:
+      url: jdbc:mysql://192.168.55.212:10889/his_releases?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false
+      username: root
+      password: 'F017xDxDIsGn2QhdUfUM00fqeaEhz8lEdZsgjmpx16qHh2NDM2fpl7BDdZlhjh3lZR/Z1yAz+fzaDG07PeAjpA=='
+      druid: 
+         filters: config,slf4j,stat
+         connectionProperties: 'config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJSZQ5UW67h+d437PWUHGyAXM3P2iWbrwWwB4wAy2cXT+Ahxh4lcrco+uYNKgV/LnJlAGTwZnxDh65ptXfdaM78CAwEAAQ=='
+      maxActive: 30
+#################redis基础配置#################
+   redis:
+      database: 8
+      host: 192.168.55.212
+      password: QdO1o^yN
+      port: 10891      
+      timeout: 3000  # 连接超时时间 单位 ms（毫秒）
+      testOnBorrow: true
+    #redis线程池设置##
+      lettuce:    
+         pool: 
+            max-idle: 2 # 连接池中的最大空闲连接，默认值也是8。
+            min-idle: 1 #连接池中的最小空闲连接，默认值也是0。
+            max-active: 1 # 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
+            max-wait: 1000 # 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException
+            time-between-eviction-runs: 2000
+knife4j:    
+#    markdowns: classpath:markdown/*
+    production: true
+his:
+    filepath: 
+        fileBaseDir: /pic/
+        tempFile: temp/
+        httpUrl: http://192.168.55.211/pic/
+        formalFile: formal/
+    ws: 
+        getAllMess: http://127.0.0.1:9527/sendNotice/getAllMess
+        getAllDic: http://127.0.0.1:9527/sendNotice/getAllDic         
+# dubbo 配置 
+dubbo:
+  application:
+    name: his
+  registry:
+    address: zookeeper://127.0.0.1:2184
+    timeout: 30000
+  protocol:
+    name: dubbo
+    port: 7864
+  scan:
+    base-packages: com.buit
+  server: true
+  consumer:
+    check: false

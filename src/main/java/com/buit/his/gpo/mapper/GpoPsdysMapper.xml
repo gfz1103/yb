@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--  -->
+<mapper namespace="com.buit.his.gpo.dao.GpoPsdysDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,YQBM as yqbm,PSMXBH as psmxbh,PSDTM as psdtm,ZXSPBM as zxspbm,PSL as psl,SCPH as scph,YSJG as ysjg,YSJGBZ as ysjgbz,C_TIME as ctime,C_USER as cuser,C_UNAME as cuname,psdbm,psdh,yplx,yxrq,jhdh,xsddh,ddmxbm
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_PSDYS (
+            XH ,
+            YQBM ,
+            PSMXBH ,
+            PSDTM ,
+            ZXSPBM ,
+            PSL ,
+            SCPH ,
+            YSJG ,
+            YSJGBZ ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME ,
+            psdbm,
+            psdh,
+            yplx,
+            yxrq,
+            jhdh,
+            xsddh,
+            ddmxbm
+        ) VALUES (
+            #{xh} ,
+            #{yqbm} ,
+            #{psmxbh} ,
+            #{psdtm} ,
+            #{zxspbm} ,
+            #{psl} ,
+            #{scph} ,
+            #{ysjg} ,
+            #{ysjgbz} ,
+            #{ctime} ,
+            #{cuser} ,
+            #{cuname},
+            #{psdbm},
+            #{psdh},
+            #{yplx},
+            #{yxrq},
+            #{jhdh},
+            #{xsddh},
+            #{ddmxbm}
+        )
+    </insert>
+
+    <insert id="batchInsert">
+        INSERT INTO GPO_PSDYS (
+            XH ,
+            YQBM ,
+            PSMXBH ,
+            PSDTM ,
+            ZXSPBM ,
+            PSL ,
+            SCPH ,
+            YSJG ,
+            YSJGBZ ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME ,
+            psdbm,
+            psdh,
+            yplx,
+            yxrq,
+            jhdh,
+            xsddh,
+            ddmxbm
+        ) VALUES
+        <foreach collection="list" item="l" separator=",">
+            (
+            #{l.xh} ,
+            #{l.yqbm} ,
+            #{l.psmxbh} ,
+            #{l.psdtm} ,
+            #{l.zxspbm} ,
+            #{l.psl} ,
+            #{l.scph} ,
+            #{l.ysjg} ,
+            #{l.ysjgbz} ,
+            #{l.ctime} ,
+            #{l.cuser} ,
+            #{l.cuname},
+            #{l.psdbm},
+            #{l.psdh},
+            #{l.yplx},
+            #{l.yxrq},
+            #{l.jhdh},
+            #{l.xsddh},
+            #{l.ddmxbm}
+            )
+        </foreach>
+
+    </insert>
+
+    <update id="update" ><!--  
+        UPDATE GPO_PSDYS SET
+            YQBM = #{yqbm} ,
+            PSMXBH = #{psmxbh} ,
+            PSDTM = #{psdtm} ,
+            ZXSPBM = #{zxspbm} ,
+            PSL = #{psl} ,
+            SCPH = #{scph} ,
+            YSJG = #{ysjg} ,
+            YSJGBZ = #{ysjgbz} ,
+            C_TIME = #{ctime} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} 
+        WHERE 
+            XH = #{xh} 
+            -->            
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM GPO_PSDYS WHERE
+        XH = #{xh} 
+    </delete>
+    
+    <delete id="removeByEntity">
+        DELETE FROM GPO_PSDYS <include refid="where"/>  
+    </delete>
+    
+    <select id="getById" resultType="GpoPsdys">
+        SELECT <include refid="columns" />
+            FROM GPO_PSDYS 
+            WHERE 
+        XH = #{xh} 
+    </select>
+    
+    <sql id="where">
+        <where>                          
+<!--                <if test="@sqlt.Ognl@isNotEmpty(xh)"> -->
+<!--                     AND XH = #{xh} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(yqbm)"> -->
+<!--                     AND YQBM = #{yqbm} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(psmxbh)"> -->
+<!--                     AND PSMXBH = #{psmxbh} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(psdtm)"> -->
+<!--                     AND PSDTM = #{psdtm} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(zxspbm)"> -->
+<!--                     AND ZXSPBM = #{zxspbm} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(psl)"> -->
+<!--                     AND PSL = #{psl} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(scph)"> -->
+<!--                     AND SCPH = #{scph} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ysjg)"> -->
+<!--                     AND YSJG = #{ysjg} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ysjgbz)"> -->
+<!--                     AND YSJGBZ = #{ysjgbz} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(ctime)"> -->
+<!--                     AND C_TIME = #{ctime} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(cuser)"> -->
+<!--                     AND C_USER = #{cuser} -->
+<!--                </if> -->
+<!--                <if test="@sqlt.Ognl@isNotEmpty(cuname)"> -->
+<!--                     AND C_UNAME = #{cuname} -->
+<!--                </if> -->
+        </where>
+    </sql>
+        
+    <select id="findByEntityCount" resultType="long">
+        SELECT count(*) FROM GPO_PSDYS 
+        <include refid="where"/>    
+    </select>
+    
+    <select id="findByEntity" resultType="GpoPsdys">
+        SELECT <include refid="columns" />
+        FROM GPO_PSDYS 
+        <include refid="where"/>
+        
+        <if test="@sqlt.Ognl@orderIsNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+    <!--     业务sql      -->
+</mapper>
+

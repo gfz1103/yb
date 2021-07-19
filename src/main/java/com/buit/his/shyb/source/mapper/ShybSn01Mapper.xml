@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 门诊_门诊类别 -->
+<mapper namespace="com.buit.his.shyb.source.dao.ShybSn01Dao">
+
+
+    
+<!--  查询明细-->
+    <select id="getMxzd" resultType="java.util.Map">
+        SELECT  ROW_NUMBER() over(order by aa.XHS) as XH,aa.* from (
+          SELECT
+            ROW_NUMBER() over(order by CF02.SBXH) as XHS,
+            CF01.CFSB as CFH,
+            CF02.SBXH as JLXH,
+            CF02.XMLX as YPLX,
+            TYPK.YPMC as FYMC,
+            OFFICE.YBKS as DEPTID,
+            KSDM.KSMC as KSMC,
+            PERSONNEL.Zybh as CFYSH,
+            PERSONNEL.zyysxm as CFYSXM,
+            SFXM.YBMZXM as FYLB,
+            ybxx.tbdm as MXXMBM,
+            ybxx.SPM as MXXMMC,
+            ybxx.BZDW as MXXMDW,
+            CF02.YPDJ*TYPK.ZXBZ /TYPK.YFBZ as MXXMDJ,
+            CF02.YPSL*CF02.CFTS*TYPK.YFBZ/TYPK.ZXBZ as MXXMSL,
+            CF02.HJJE as HJJE,
+            ybxx.YPTYM as YYCLPP,
+            ''  as ZCZH,
+            ybxx.GGBZWZBS as MXXMGG,
+            date_format(cf01.kfrq,'%Y%m%d')  as  MXXMSYRQ ,
+            1 as SFTFBZ,
+            0 as JFBZ ,
+            ifnull(ypcd.grdezfs,0) as GRZFDE,
+            typk.tsyp as TSFY,
+            cf02.zfbl as ZFBL,
+            cf02.ypxh as FYXH
+            from OP_CF01  CF01
+            left join OP_CF02  CF02 on CF01.CFSB = CF02.CFSB AND CF02.ZFYP != 1
+            left join DRUGS_YBYP ybyp on ybyp.ypxh=CF02.YPXH AND ybyp.ypcd=CF02.YPCD  and ybyp.qybz=1
+            left join shyb_ypjcxx YBXX on YBXX.tbdm = ybyp.ybbm AND
+            DATE_FORMAT(CF01.KFRQ,'%Y%m%d') >= YBXX.QYRQ AND
+            DATE_FORMAT(CF01.KFRQ,'%Y%m%d') &lt;=DATE_FORMAT(ifnull(YXRQ,DATE_ADD(now(),INTERVAL 1 DAY)),'%Y%m%d')
+        left join DIC_KSZD  OFFICE on CF01.KSDM = OFFICE.ID
+            left join YB_KSDM     KSDM   on OFFICE.YBKS = TRIM(KSDM.KSDM)
+            left join HR_PERSONNEL PERSONNEL on PERSONNEL.PERSONID = CF01.YSDM
+            left join DIC_SFXMLB     SFXM   on CF02.FYGB = SFXM.SFXM
+            left join DRUGS_TYPK     TYPK   on CF02.YPXH = TYPK.YPXH
+            left JOIN DRUGS_YPCD YPCD ON CF02.YPXH = YPCD.YPXH AND CF02.YPCD = YPCD.YPCD
+            where CF02.YPSL != 0
+            and (cf01.fphm is null or cf01.fphm='')
+            and cf01.zfpb = 0
+        <choose>
+            <when test="@sqlt.Ognl@isNotEmpty(BZ) and BZ == 1 ">
+                and CF01.jzlsh = #{JZLSH}
+            </when>
+            <when test="@sqlt.Ognl@isNotEmpty(CFSBXH) and @sqlt.Ognl@isNotEmpty(BZ) and BZ == 2 ">
+                and CF02.sbxh in
+                <foreach item="item" index="index" collection="CFSBXH" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </when>
+        </choose>
+
+        union all
+            SELECT
+            ROW_NUMBER() over(order by yj02.SBXH) as XHS,
+            yj01.yjxh CFH,
+            yj02.sbxh as JLXH,
+            0 as YPLX,
+            ylsf.fymc as FYMC,
+            KSDM.KSDM as DEPTID,
+            KSDM.KSMC AS KSMC,
+            PERSONNEL.Zybh as CFYSH,
+            PERSONNEL.zyysxm as CFYSXM,
+            SFXM.YBMZXM as FYLB,
+            ylsf.ybbm AS  MXXMBM,
+            ylsf.ybmc AS MXXMMC,
+            ylsf.ybdw AS MXXMDW,
+            yj02.yldj as MXXMDJ,
+            yj02.ylsl as MXXMSL,
+            YJ02.HJJE as HJJE,
+            ylsf.yypp as  YYCLPP,
+            ylsf.zczh as ZCZH,
+            ylsf.yyclgg as MXXMGG,
+            date_format(yj01.kdrq,'%Y%m%d')  as  MXXMSYRQ ,
+            1 as SFTFBZ,
+            0 as JFBZ ,
+            0 as GRZFDE,
+            0 as TSFY,
+            yj02.zfbl as ZFBL,
+            yj02.ylxh as FYXH
+            from OP_YJCF02       yj02
+            left join DIC_SFXMLB  SFXM on yj02.FYGB = SFXM.SFXM
+            left join FEE_YLSFXM  ylsf on ylsf.fyxh = yj02.ylxh,
+            OP_YJCF01       yj01
+            left join DIC_KSZD  OFFICE on yj01.KSDM = OFFICE.ID
+            left join YB_KSDM  KSDM on OFFICE.YBKS = TRIM(KSDM.KSDM)
+            left join HR_PERSONNEL PERSONNEL on PERSONNEL.PERSONID = yj01.YSDM
+            WHERE  yj01.yjxh = yj02.yjxh
+            and (yj01.fphm is null or yj01.fphm='')
+            and yj01.zfpb = 0
+        <choose>
+            <when test="@sqlt.Ognl@isNotEmpty(BZ) and BZ == 1 ">
+                and yj01.jzlsh = #{JZLSH}
+            </when>
+            <when test="@sqlt.Ognl@isNotEmpty(YJSBXH) and @sqlt.Ognl@isNotEmpty(BZ) and BZ == 2 ">
+                and yj02.sbxh in
+                <foreach item="item" index="index" collection="YJSBXH" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </when>
+        </choose>
+        ) aa
+    </select>
+
+    <!--  查询账户标志-->
+    <select id="getMaxxh" resultType="java.util.Map">
+        SELECT
+           ifnull(max(xh),0 ) as XH from shyb_sn01_mz where clbz=0 and jzdyh = #{jzdyh}
+    </select>
+
+    <!--  新增sk-->
+    <insert id="saveSn01Mz">
+        INSERT INTO SHYB_SN01_MZ (
+          MXZDH ,
+          JYSJ ,
+          XH   ,
+          CLBZ ,
+          FHXX ,
+          BXBZ ,
+          MXXMJE ,
+          MXXMJYFY ,
+          MXXMYBJSFWFY  ,
+          MXXMDJ ,
+          MXXMSL ,
+          BRXZ ,
+          ZFBL ,
+          JZDYH ,
+          JLXH  ,
+          FYMC  ,
+          YPLX  ,
+          CXBZ  ,
+          JSLX
+        ) VALUES (
+          #{MXZDH} ,
+          #{JYSJ} ,
+          #{XH}   ,
+          #{CLBZ} ,
+          #{FHXX} ,
+          #{BXBZ} ,
+          #{MXXMJE} ,
+          #{MXXMJYFY} ,
+          #{MXXMYBJSFWFY}  ,
+          #{MXXMDJ} ,
+          #{MXXMSL} ,
+          #{BRXZ} ,
+          #{ZFBL} ,
+          #{JZDYH} ,
+          #{JLXH}  ,
+          #{FYMC}  ,
+          #{YPLX}  ,
+          #{CXBZ}  ,
+          #{JSLX}
+        )
+    </insert>
+
+    <!-- DRUGS_CDYBXX -->
+    <!--<select id="getZyfymx" resultType="java.util.Map">-->
+        <!--SELECT cast(@sh:=@sh+1 as char) as XH,CFH,DEPTID,KSMC,FYRQ,CFYSH,CFYSXM,FYLB,MXXMBM,MXXMMC,MXXMDW,-->
+            <!--MXXMDJ,MXXMSL,YYCLPP,ZCZH,MXXMGG,MXXMSYRQ,BXBZ,SFTFBZ,JFBZ,-->
+            <!--SFXFMX,FYXH,ZJJE,ZFJE,CZFJE,ZFBL,MXZDH,MXSCBZ from (-->
+              <!--SELECT FYMX.JLXH AS CFH,KSDM.KSDM AS DEPTID, KSDM.KSMC AS KSMC,date_format(FYMX.FYRQ,'%Y-%m-%d') AS FYRQ,-->
+                <!--PERSON.ZYBH AS CFYSH, PERSON.ZYYSXM AS CFYSXM,SFXM.YBZYXM AS FYLB, YBXX.YBBM AS MXXMBM,-->
+                <!--case when TYPK.TYPE = 3 then YBXX.YBMC else YBXX.YBSPMC end as MXXMMC, YBXX.YBDW AS MXXMDW,-->
+                <!--CAST(ROUND(TYPK.ZXBZ*FYMX.FYDJ/TYPK.BFBZ,3) AS DECIMAL(20,3)) AS MXXMDJ,-->
+                <!--CAST(ROUND(ABS(FYMX.FYSL)*TYPK.BFBZ/TYPK.ZXBZ,5)AS DECIMAL(20,5)) AS MXXMSL,-->
+                <!--YBXX.YBMC AS YYCLPP,' ' AS ZCZH, YBXX.YBGG AS MXXMGG,date_format(FYMX.FYRQ,'%Y%m%d') AS MXXMSYRQ,-->
+                <!--(CASE WHEN FYMX.ZFBL = 1 THEN '1' ELSE '0' END) AS BXBZ,-->
+                <!--(CASE WHEN FYMX.ZJJE > 0 THEN '1' ELSE '2' END) AS SFTFBZ,-->
+                <!--'0' AS JFBZ,'0' AS SFXFMX,FYMX.FYXH AS FYXH, FYMX.ZJJE AS ZJJE, FYMX.ZFJE AS ZFJE,-->
+                <!--CASE WHEN ZFBL = 1 THEN ABS(FYMX.ZFJE) ELSE 0 END AS CZFJE,-->
+                <!--FYMX.ZFBL,FYMX.MXZDH,FYMX.MXSCBZ-->
+              <!--FROM-->
+                <!--IM_FEE_FYMX FYMX-->
+                <!--LEFT JOIN DRUGS_CDYBXX  YBXX ON YBXX.YPCD = FYMX.YPCD AND FYMX.FYRQ >= YBXX.QYRQ-->
+                  <!--AND FYMX.FYRQ &lt; IFNULL(YBXX.JSRQ,DATE_ADD(now(),INTERVAL 1 DAY))  AND YBXX.YPXH = FYMX.FYXH-->
+                <!--LEFT JOIN HR_PERSONNEL PERSON ON IFNULL(FYMX.YSGH,FYMX.QRGH) = PERSON.PERSONID-->
+                <!--LEFT JOIN DIC_SFXMLB SFXM ON SFXM.SFXM = FYMX.FYXM-->
+                <!--LEFT JOIN DRUGS_TYPK   TYPK  ON TYPK.YPXH = FYMX.FYXH-->
+                <!--LEFT JOIN IM_HZRY  BRRY  ON  BRRY.ZYH = FYMX.ZYH-->
+                <!--LEFT JOIN DIC_KSZD  OFFICE ON FYMX.FYKS = OFFICE.ID-->
+                <!--LEFT JOIN YB_KSDM     KSDM   ON OFFICE.YBKS = TRIM(KSDM.KSDM)-->
+              <!--WHERE  FYMX.ZYH = BRRY.ZYH-->
+                <!--AND FYMX.YPLX  != 0-->
+                <!--AND FYMX.MXZDH is null AND FYMX.MXSCBZ is null-->
+                <!--AND FYMX.ZYH = #{zyh}-->
+                 <!--AND FYMX.JSCS = 0-->
+        <!--<choose>-->
+            <!--<when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">-->
+                <!--and STR_TO_DATE(fymx.FYRQ,'%Y-%m-%d') &lt;= CURRENT_DATE()-->
+            <!--</when>-->
+        <!--</choose>-->
+            <!--UNION ALL-->
+              <!--SELECT FYMX.JLXH AS CFH,KSDM.KSDM AS DEPTID,KSDM.KSMC AS KSMC,date_format(FYMX.FYRQ,'%Y-%m-%d') AS FYRQ,-->
+                <!--PERSON.ZYBH AS CFYSH,PERSON.ZYYSXM AS CFYSXM,SFXM.YBZYXM AS FYLB,-->
+                <!--IFNULL(YLSF.YBBM,' ') AS MXXMBM,IFNULL(YLSF.YBMC,' ') AS MXXMMC,IFNULL(YLSF.YBDW,' ') AS MXXMDW,-->
+                <!--CAST(ROUND(FYMX.FYDJ,3) AS DECIMAL(20,3)) AS MXXMDJ,-->
+                <!--CAST(ROUND(ABS(FYMX.FYSL),5) AS DECIMAL(20,5)) AS MXXMSL,-->
+                <!--YLSF.YYPP AS YYCLPP,YLSF.ZCZH AS ZCZH,-->
+                <!--(CASE WHEN YLSF.YYCLGG IS NULL THEN ' ' ELSE YLSF.YYCLGG END) AS MXXMGG,date_format(FYMX.FYRQ,'%Y%m%d') AS MXXMSYRQ,-->
+                <!--(CASE  WHEN FYMX.ZFBL = 1 THEN  '1'  ELSE  '0' END) AS BXBZ,-->
+                <!--(CASE WHEN FYMX.ZJJE > 0 THEN '1' ELSE '2' END) AS SFTFBZ,-->
+                <!--'0' AS JFBZ,'0' AS SFXFMX,-->
+                <!--FYMX.FYXH AS FYXH, FYMX.ZJJE AS ZJJE, FYMX.ZFJE AS ZFJE,-->
+                <!--CASE WHEN ZFBL = 1 THEN ABS(FYMX.ZFJE) ELSE 0 END AS CZFJE,-->
+                <!--FYMX.ZFBL,FYMX.MXZDH,FYMX.MXSCBZ-->
+              <!--FROM IM_FEE_FYMX FYMX-->
+                <!--LEFT JOIN HR_PERSONNEL PERSON ON IFNULL(FYMX.YSGH,FYMX.QRGH) = PERSON.PERSONID-->
+                <!--LEFT JOIN DIC_SFXMLB SFXM ON SFXM.SFXM = FYMX.FYXM-->
+                <!--LEFT JOIN FEE_YLSFXM   YLSF  ON YLSF.FYXH = FYMX.FYXH-->
+                <!--LEFT JOIN IM_HZRY  BRRY  ON  BRRY.ZYH = FYMX.ZYH-->
+                <!--LEFT JOIN DIC_KSZD  OFFICE ON FYMX.FYKS = OFFICE.ID-->
+                <!--LEFT JOIN YB_KSDM     KSDM   ON OFFICE.YBKS = TRIM(KSDM.KSDM)-->
+                <!--WHERE  FYMX.ZYH = BRRY.ZYH-->
+                <!--AND FYMX.YPLX  = 0-->
+                <!--AND FYMX.MXZDH is null AND FYMX.MXSCBZ is null-->
+                <!--AND FYMX.ZYH = #{zyh}-->
+                <!--AND FYMX.JSCS = 0-->
+        <!--<choose>-->
+            <!--<when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">-->
+                <!--and STR_TO_DATE(fymx.FYRQ,'%Y-%m-%d') &lt;= CURRENT_DATE()-->
+            <!--</when>-->
+        <!--</choose>-->
+        <!--) n,(SELECT @sh:=0) r-->
+        <!--order by FYRQ-->
+    <!--</select>-->
+
+    <select id="getZyfymx" resultType="java.util.Map">
+        select * from ( SELECT cast(@sh:=@sh+1 as char) as XH,CFH,DEPTID,KSMC,FYRQ,YXRQ,CFYSH,CFYSXM,FYLB,MXXMBM,MXXMMC,MXXMDW,
+        MXXMDJ,MXXMSL,YYCLPP,ZCZH,MXXMGG,MXXMSYRQ,BXBZ,SFTFBZ,JFBZ,
+        SFXFMX,FYXH,ZJJE,ZFJE,CZFJE,ZFBL,MXZDH,MXSCBZ from (
+        SELECT FYMX.JLXH AS CFH,KSDM.KSDM AS DEPTID, KSDM.KSMC AS KSMC,date_format(FYMX.FYRQ,'%Y-%m-%d') AS FYRQ,JCXX.YXRQ AS YXRQ,
+        PERSON.ZYBH AS CFYSH, PERSON.ZYYSXM AS CFYSXM,SFXM.YBZYXM AS FYLB, YBXX.YBBM AS MXXMBM,
+        case when TYPK.TYPE = 3 then JCXX.SPM else JCXX.YPTYM end as MXXMMC, JCXX.BZDW AS MXXMDW,
+        CAST(ROUND(TYPK.ZXBZ*FYMX.FYDJ/TYPK.BFBZ,3) AS DECIMAL(20,6)) AS MXXMDJ,
+        CAST(ROUND(ABS(FYMX.FYSL)*TYPK.BFBZ/TYPK.ZXBZ,5)AS DECIMAL(20,5)) AS MXXMSL,
+        JCXX.YPTYM AS YYCLPP,' ' AS ZCZH, JCXX.GG AS MXXMGG,date_format(FYMX.FYRQ,'%Y%m%d') AS MXXMSYRQ,
+        (CASE WHEN FYMX.ZFBL = 1 THEN '1' ELSE '0' END) AS BXBZ,
+        (CASE WHEN FYMX.ZJJE > 0 THEN '1' ELSE '2' END) AS SFTFBZ,
+        '0' AS JFBZ,'0' AS SFXFMX,FYMX.FYXH AS FYXH, FYMX.ZJJE AS ZJJE, FYMX.ZFJE AS ZFJE,
+        CASE WHEN ZFBL = 1 THEN ABS(FYMX.ZFJE) ELSE 0 END AS CZFJE,
+        FYMX.ZFBL,FYMX.MXZDH,FYMX.MXSCBZ
+        FROM
+        IM_FEE_FYMX FYMX
+        LEFT JOIN drugs_ybyp  YBXX ON YBXX.YPCD = FYMX.YPCD AND YBXX.YPXH = FYMX.FYXH
+        LEFT JOIN SHYB_YPJCXX JCXX ON YBXX.YBBM=JCXX.TBDM
+        LEFT JOIN HR_PERSONNEL PERSON ON IFNULL(FYMX.YSGH,FYMX.QRGH) = PERSON.PERSONID
+        LEFT JOIN DIC_SFXMLB SFXM ON SFXM.SFXM = FYMX.FYXM
+        LEFT JOIN DRUGS_TYPK   TYPK  ON TYPK.YPXH = FYMX.FYXH
+        LEFT JOIN IM_HZRY  BRRY  ON  BRRY.ZYH = FYMX.ZYH
+        LEFT JOIN DIC_KSZD  OFFICE ON FYMX.FYKS = OFFICE.ID
+        LEFT JOIN YB_KSDM     KSDM   ON OFFICE.YBKS = TRIM(KSDM.KSDM)
+        WHERE  FYMX.ZYH = BRRY.ZYH
+        AND FYMX.YPLX  != 0
+
+        AND FYMX.MXZDH is null AND FYMX.MXSCBZ is null
+        AND FYMX.ZYH = #{zyh}
+        AND FYMX.JSCS = 0
+        AND FYMX.FYRQ &lt;= IFNULL(DATE_ADD(JCXX.YXRQ,INTERVAL 1 DAY),DATE_ADD(now(),INTERVAL 1 DAY))
+        <choose>
+            <when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">
+                and STR_TO_DATE(fymx.FYRQ,'%Y-%m-%d') &lt;= CURRENT_DATE()
+            </when>
+        </choose>
+        UNION ALL
+        SELECT FYMX.JLXH AS CFH,KSDM.KSDM AS DEPTID,KSDM.KSMC AS KSMC,date_format(FYMX.FYRQ,'%Y-%m-%d') AS FYRQ,'' AS YXRQ,
+        PERSON.ZYBH AS CFYSH,PERSON.ZYYSXM AS CFYSXM,SFXM.YBZYXM AS FYLB,
+        IFNULL(YLSF.YBBM,' ') AS MXXMBM,IFNULL(YLSF.YBMC,' ') AS MXXMMC,IFNULL(YLSF.YBDW,' ') AS MXXMDW,
+        CAST(ROUND(FYMX.FYDJ,3) AS DECIMAL(20,3)) AS MXXMDJ,
+        CAST(ROUND(ABS(FYMX.FYSL),5) AS DECIMAL(20,5)) AS MXXMSL,
+        YLSF.YYPP AS YYCLPP,YLSF.ZCZH AS ZCZH,
+        (CASE WHEN YLSF.YYCLGG IS NULL THEN ' ' ELSE YLSF.YYCLGG END) AS MXXMGG,date_format(FYMX.FYRQ,'%Y%m%d') AS MXXMSYRQ,
+        (CASE  WHEN FYMX.ZFBL = 1 THEN  '1'  ELSE  '0' END) AS BXBZ,
+        (CASE WHEN FYMX.ZJJE > 0 THEN '1' ELSE '2' END) AS SFTFBZ,
+        '0' AS JFBZ,'0' AS SFXFMX,
+        FYMX.FYXH AS FYXH, FYMX.ZJJE AS ZJJE, FYMX.ZFJE AS ZFJE,
+        CASE WHEN ZFBL = 1 THEN ABS(FYMX.ZFJE) ELSE 0 END AS CZFJE,
+        FYMX.ZFBL,FYMX.MXZDH,FYMX.MXSCBZ
+        FROM IM_FEE_FYMX FYMX
+        LEFT JOIN HR_PERSONNEL PERSON ON IFNULL(FYMX.YSGH,FYMX.QRGH) = PERSON.PERSONID
+        LEFT JOIN DIC_SFXMLB SFXM ON SFXM.SFXM = FYMX.FYXM
+        LEFT JOIN FEE_YLSFXM   YLSF  ON YLSF.FYXH = FYMX.FYXH
+        LEFT JOIN IM_HZRY  BRRY  ON  BRRY.ZYH = FYMX.ZYH
+        LEFT JOIN DIC_KSZD  OFFICE ON FYMX.FYKS = OFFICE.ID
+        LEFT JOIN YB_KSDM     KSDM   ON OFFICE.YBKS = TRIM(KSDM.KSDM)
+        WHERE  FYMX.ZYH = BRRY.ZYH
+        AND FYMX.YPLX  = 0
+        AND FYMX.MXZDH is null AND FYMX.MXSCBZ is null
+        AND FYMX.ZYH = #{zyh}
+        AND FYMX.JSCS = 0
+        <choose>
+            <when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">
+                and STR_TO_DATE(fymx.FYRQ,'%Y-%m-%d') &lt;= CURRENT_DATE()
+            </when>
+        </choose>
+        ) n,(SELECT @sh:=0) r
+        order by FYRQ,YXRQ ) s group by CFH ORDER BY FYRQ,YXRQ
+    </select>
+
+    <select id="getFyrq" resultType="java.util.Map">
+        select distinct (FYRQ) as FYRQ from
+            (select distinct (date_format(FYMX.FYRQ, '%Y-%m-%d')) as FYRQ from
+                  im_fee_fymx fymx where fymx.ZYH = #{zyh}
+                  AND fymx.JSCS = 0
+        <choose>
+            <when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">
+                and STR_TO_DATE(fymx.FYRQ,'%Y-%m-%d') &lt;= STR_TO_DATE(#{jsrq},'%Y-%m-%d')
+            </when>
+        </choose>
+            ) a
+        order by FYRQ asc
+    </select>
+
+    <!-- 更新住院收费明细上传字段-->
+    <update id="updateMxzdh" >
+    	update IM_FEE_FYMX set MXZDH = #{MXZDH} ,JZDYH = #{JZDYH}, MXSCBZ = 1 where JLXH = #{JLXH}
+    </update>
+
+    <!--  新增sn-zy-->
+    <insert id="insertYbSn01Zy">
+        INSERT INTO SHYB_SN01_ZY (
+          JLXH ,
+          MXZDH ,
+          XH   ,
+          CLBZ ,
+          FHXX ,
+          BXBZ ,
+          MXXMJE ,
+          MXXMJYFY ,
+          MXXMYBJSFWFY  ,
+          JZDYH ,
+          CXBZ  ,
+          FYMXJLXH  ,
+          YPLX  ,
+          JYSJ  ,
+          JSSQXH
+        ) VALUES (
+           #{jlxh} ,
+          #{mxzdh} ,
+          #{xh}   ,
+          #{clbz} ,
+          #{fhxx} ,
+          #{bxbz} ,
+          #{mxxmje} ,
+          #{mxxmjyfy} ,
+          #{mxxmybjsfwfy}  ,
+          #{jzdyh} ,
+          #{cxbz}  ,
+          #{fymxjlxh}  ,
+          #{yplx}  ,
+          #{jysj}  ,
+          #{jssqxh}
+        )
+    </insert>
+
+    <insert id="insertYbSn01ZyEr">
+        INSERT INTO SHYB_SN01_ZY_ERR (
+          JLXH ,
+          MXZDH ,
+          XH   ,
+          CLBZ ,
+          FHXX ,
+          BXBZ ,
+          MXXMJE ,
+          MXXMJYFY ,
+          MXXMYBJSFWFY  ,
+          JZDYH ,
+          CXBZ  ,
+          FYMXJLXH  ,
+          YPLX  ,
+          JYSJ  ,
+          JSSQXH
+        ) VALUES (
+          #{jlxh} ,
+          #{mxzdh} ,
+          #{xh}   ,
+          #{clbz} ,
+          #{fhxx} ,
+          #{bxbz} ,
+          #{mxxmje} ,
+          #{mxxmjyfy} ,
+          #{mxxmybjsfwfy}  ,
+          #{jzdyh} ,
+          #{cxbz}  ,
+          #{fymxjlxh}  ,
+          #{yplx}  ,
+          #{jysj}  ,
+          #{jssqxh}
+        )
+    </insert>
+
+    <select id="getMxzdList" resultType="java.util.Map">
+       select
+          ROUND(sum(mxxmjyfy),2) as totalexpense,
+          ROUND(sum(mxxmybjsfwfy),2) as ybjsfwfyze,
+          ROUND(sum(mxxmje)-sum(mxxmybjsfwfy),2) as fybjsfwfyze,
+		  mxzdh as mxzdh
+		from
+		  (
+		    select
+		      case when b.fysl >= 0 then a.mxxmje else -1*a.mxxmje end as mxxmje,
+		      case when b.fysl >= 0 then a.mxxmjyfy else -1*a.mxxmjyfy end as mxxmjyfy,
+		      case when b.fysl >= 0  then  a.mxxmybjsfwfy else -1*a.mxxmybjsfwfy end as mxxmybjsfwfy,
+		      a.mxzdh as mxzdh
+			from
+			  shyb_sn01_zy a,
+			  IM_FEE_FYMX b
+			where
+			  a.fymxjlxh = b.jlxh and
+			  a.mxzdh in (
+                    select distinct(yb_sn01.mxzdh) as mxzdh
+                    from
+                    shyb_sn01_zy yb_sn01 ,
+                    im_hzry brry,
+                    im_fee_fymx fymx
+                    where
+                    yb_sn01.jzdyh = brry.jzdyh and
+                    yb_sn01.fymxjlxh = fymx.jlxh  and
+                    yb_sn01.mxzdh = fymx.mxzdh and
+                    yb_sn01.clbz = 0 and
+                    yb_sn01.cxbz is null and
+                    fymx.mxjsbz is null and
+                    fymx.mxscbz = 1 and
+                    brry.zyh = #{zyh} and
+                    yb_sn01.jzdyh = #{jzdyh}
+                    AND fymx.JSCS = 0
+                    <choose>
+                        <when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">
+                            and STR_TO_DATE(fymx.FYRQ,'%Y-%m-%d') &lt;= STR_TO_DATE(#{jsrq},'%Y%m%d')
+                        </when>
+                    </choose>
+			      )  and
+			  b.mxzdh is not null and
+			  b.mxscbz = 1 and
+			  a.clbz = 0 and
+			  a.cxbz is null and
+			  b.zyh = #{zyh} and
+			  b.jzdyh = #{jzdyh}
+		  ) A
+		group by mxzdh
+    </select>
+
+    <!-- 更新住院上传申请序号字段-->
+    <update id="updateJssqxh" >
+        update
+        SHYB_SN01_ZY
+        set
+        JSSQXH = #{jssqxh}
+        where
+        MXZDH in ( select mxzdh from (
+        select distinct(yb_sn01.mxzdh) as mxzdh
+        from
+        shyb_sn01_zy yb_sn01 ,
+        im_hzry brry,
+        im_fee_fymx fymx
+        where
+        yb_sn01.jzdyh = brry.jzdyh and
+        yb_sn01.fymxjlxh = fymx.jlxh and
+        yb_sn01.mxzdh = fymx.mxzdh and
+        yb_sn01.clbz = 0 and
+        yb_sn01.cxbz is null and
+        fymx.mxjsbz is null and
+        fymx.mxscbz = 1 and
+        brry.zyh = #{zyh} and
+        yb_sn01.jzdyh = #{jzdyh}
+        AND fymx.JSCS = 0
+        <choose>
+                    <when test="@sqlt.Ognl@isNotEmpty(jscs) and jscs == 1 ">
+                        and date_format(fymx.FYRQ,'%Y-%m-%d') &lt;= #{jsrq}
+                    </when>
+                </choose>
+        ) t
+    	    )
+    </update>
+
+    <select id="getJlxh" resultType="java.util.Map">
+      select a.fymxjlxh as jlxh ,
+          a.mxzdh as mxzdh
+        from
+          shyb_sn01_zy a
+		where
+		  a.mxzdh in
+        <foreach item="item" index="index" collection="mxzdh" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+		  and
+		  a.clbz = 0 and
+		  a.cxbz is null and
+		  a.jzdyh = #{jzdyh}
+		  order by a.fymxjlxh+0
+    </select>
+
+    <select id="getFymxjlxh" resultType="java.util.Map">
+     select
+        a.jlxh as jlxh ,
+        a.mxzdh as mxzdh
+      from
+        IM_FEE_FYMX a
+      where
+      a.zyh = #{zyh} and
+      a.jzdyh = #{jzdyh} and
+      a.mxzdh in
+        <foreach item="item" index="index" collection="mxzdh" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+      and
+      a.mxscbz = 1
+      order by a.jlxh+0
+    </select>
+
+    <select id="getMxzdsList" resultType="java.util.Map">
+    select
+        ROUND(sum(mxxmjyfy),2) as totalexpense,
+        ROUND(sum(mxxmybjsfwfy),2) as ybjsfwfyze,
+        ROUND(sum(mxxmje)-sum(mxxmybjsfwfy),2) as fybjsfwfyze,
+		mxzdh as mxzdh
+	  from
+	    (select case when b.fysl >= 0 then a.mxxmje else -1*a.mxxmje end as mxxmje,
+	      case when b.fysl >= 0 then a.mxxmjyfy else -1*a.mxxmjyfy end as mxxmjyfy,
+	      case when b.fysl >= 0  then  a.mxxmybjsfwfy else -1*a.mxxmybjsfwfy end as mxxmybjsfwfy,
+	      a.mxzdh as mxzdh
+		from
+		  shyb_sn01_zy a,
+		  IM_FEE_FYMX b
+		  where
+		    a.fymxjlxh = b.jlxh and
+		    a.mxzdh in
+        <foreach item="item" index="index" collection="mxzdh" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+			and
+			b.mxzdh is not null
+			and b.mxscbz = 1
+			and a.clbz = 0
+			and a.cxbz is null
+			and b.zyh = #{zyh}
+			and b.jzdyh = #{jzdyh} ) A group by mxzdh
+    </select>
+
+    <select id="getMxzdhs" resultType="java.util.Map">
+        select max(mxzdh)  as mxzdh ,sum(mxxmjyfy) as totalexpense,sum(mxxmybjsfwfy) as ybjsfwfyze,sum(mxxmje-mxxmybjsfwfy) as fybjsfwfyze
+      from
+        shyb_sn01_mz
+	  where jzdyh= #{jzdyh} group by mxzdh order by jysj desc limit 1
+    </select>
+
+
+    <update id="updateFymxbz">
+        update
+        im_fee_fymx
+        set
+        mxjsbz = "1"
+        where
+        jlxh in ( select jlxh from  (select  a.jlxh   from
+        im_fee_fymx a,
+        shyb_sn01_zy b
+        where
+        a.jlxh = b.fymxjlxh and
+        a.mxzdh = b.mxzdh  and
+        a.zyh = #{zyh} and
+        a.jzdyh = #{jzdyh}  and
+        a.mxzdh in
+        <foreach item="b"  collection="mxzdh" open="(" separator="," close=")">
+            #{b}
+        </foreach>
+        and
+        a.mxscbz = 1   and
+        b.clbz = 0  and
+        b.cxbz is null
+        ) a )
+    </update>
+
+</mapper>
+

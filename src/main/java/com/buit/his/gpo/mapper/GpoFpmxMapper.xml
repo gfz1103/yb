@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- GPO发票明细 -->
+<mapper namespace="com.buit.his.gpo.dao.GpoFpmxDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        XH as xh,JGID as jgid,GPO_JGID as gpoJgid,FPXH as fpxh,SFWPSFP as sfwpsfp,WPSFPSM as wpsfpsm,FPMXBH as fpmxbh,SPLX as splx,SFCH as sfch,ZXSPBM as zxspbm,SCPH as scph,SCRQ as scrq,SPSL as spsl,GLMXBH as glmxbh,XSDDH as xsddh,SXH as sxh,YXRQ as yxrq,WSDJ as wsdj,HSDJ as hsdj,SL as sl,SE as se,HSJE as hsje,PFJ as pfj,LSJ as lsj,PZWH as pzwh,ZT as zt,C_TIME as ctime,C_USER as cuser,C_UNAME as cuname
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO GPO_FPMX (
+            XH ,
+            JGID ,
+            GPO_JGID ,
+            FPXH ,
+            SFWPSFP ,
+            WPSFPSM ,
+            FPMXBH ,
+            SPLX ,
+            SFCH ,
+            ZXSPBM ,
+            SCPH ,
+            SCRQ ,
+            SPSL ,
+            GLMXBH ,
+            XSDDH ,
+            SXH ,
+            YXRQ ,
+            WSDJ ,
+            HSDJ ,
+            SL ,
+            SE ,
+            HSJE ,
+            PFJ ,
+            LSJ ,
+            PZWH ,
+            ZT ,
+            C_TIME ,
+            C_USER ,
+            C_UNAME 
+        ) VALUES (
+            #{xh} ,
+            #{jgid} ,
+            #{gpoJgid} ,
+            #{fpxh} ,
+            #{sfwpsfp} ,
+            #{wpsfpsm} ,
+            #{fpmxbh} ,
+            #{splx} ,
+            #{sfch} ,
+            #{zxspbm} ,
+            #{scph} ,
+            #{scrq} ,
+            #{spsl} ,
+            #{glmxbh} ,
+            #{xsddh} ,
+            #{sxh} ,
+            #{yxrq} ,
+            #{wsdj} ,
+            #{hsdj} ,
+            #{sl} ,
+            #{se} ,
+            #{hsje} ,
+            #{pfj} ,
+            #{lsj} ,
+            #{pzwh} ,
+            #{zt} ,
+            #{ctime} ,
+            #{cuser} ,
+            #{cuname} 
+        )
+    </insert>
+    
+    <update id="update" ><!--  
+        UPDATE GPO_FPMX SET
+            JGID = #{jgid} ,
+            GPO_JGID = #{gpoJgid} ,
+            FPXH = #{fpxh} ,
+            SFWPSFP = #{sfwpsfp} ,
+            WPSFPSM = #{wpsfpsm} ,
+            FPMXBH = #{fpmxbh} ,
+            SPLX = #{splx} ,
+            SFCH = #{sfch} ,
+            ZXSPBM = #{zxspbm} ,
+            SCPH = #{scph} ,
+            SCRQ = #{scrq} ,
+            SPSL = #{spsl} ,
+            GLMXBH = #{glmxbh} ,
+            XSDDH = #{xsddh} ,
+            SXH = #{sxh} ,
+            YXRQ = #{yxrq} ,
+            WSDJ = #{wsdj} ,
+            HSDJ = #{hsdj} ,
+            SL = #{sl} ,
+            SE = #{se} ,
+            HSJE = #{hsje} ,
+            PFJ = #{pfj} ,
+            LSJ = #{lsj} ,
+            PZWH = #{pzwh} ,
+            ZT = #{zt} ,
+            C_TIME = #{ctime} ,
+            C_USER = #{cuser} ,
+            C_UNAME = #{cuname} 
+        WHERE 
+            XH = #{xh} 
+            -->            
+    </update>
+
+    <delete id="deleteById"></delete>
+    
+    <delete id="removeByEntity"></delete>
+    
+    <select id="getById" resultType="com.buit.his.gpo.model.GpoFpmx">
+        SELECT <include refid="columns" />
+        FROM GPO_FPMX
+        WHERE
+        XH = #{xh}
+    </select>
+        
+    <select id="findByEntityCount" resultType="long"></select>
+    <select id="findByEntity" resultType="com.buit.his.gpo.model.GpoFpmx"></select>
+
+    <!--     业务sql      -->
+    <select id="list" resultType="com.buit.his.gpo.service.result.Fpmx">
+        SELECT <include refid="columns" />
+        FROM GPO_FPMX
+        WHERE FPXH = #{fpxh}
+        AND JGID = #{jgid}
+    </select>
+</mapper>
+
